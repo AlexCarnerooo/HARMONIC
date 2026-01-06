@@ -44,6 +44,7 @@
         .search-container {
             flex: 1;
             max-width: 500px;
+            position: relative;
         }
 
         .search-input {
@@ -63,6 +64,104 @@
 
         .search-input::placeholder {
             color: #B3B3B3;
+        }
+
+        /* Autocompletado */
+        .suggestions-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            margin-top: 8px;
+            background-color: #282828;
+            border: 1px solid #404040;
+            border-radius: 8px;
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            display: none;
+        }
+
+        .suggestions-dropdown.show {
+            display: block;
+        }
+
+        .suggestion-item {
+            padding: 12px 16px;
+            cursor: pointer;
+            border-bottom: 1px solid #404040;
+            transition: background-color 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .suggestion-item:last-child {
+            border-bottom: none;
+        }
+
+        .suggestion-item:hover {
+            background-color: #404040;
+        }
+
+        .suggestion-item .suggestion-name {
+            font-weight: 500;
+            color: #ffffff;
+        }
+
+        .suggestion-item .suggestion-artist {
+            font-size: 12px;
+            color: #B3B3B3;
+            margin-left: 10px;
+        }
+
+        /* Canciones populares */
+        .popular-songs-section {
+            margin-top: 30px;
+        }
+
+        .popular-songs-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #ffffff;
+        }
+
+        .popular-songs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .popular-song-card {
+            background-color: #181818;
+            border-radius: 8px;
+            padding: 16px;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.2s;
+        }
+
+        .popular-song-card:hover {
+            background-color: #282828;
+            transform: translateY(-4px);
+        }
+
+        .popular-song-card .song-title {
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .popular-song-card .song-artist {
+            font-size: 14px;
+            color: #B3B3B3;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         /* Layout principal */
@@ -381,6 +480,7 @@
             background: #404040;
             outline: none;
             -webkit-appearance: none;
+            appearance: none;
         }
 
         .filter-range::-webkit-slider-thumb {
@@ -1043,6 +1143,162 @@
             margin-bottom: 15px;
         }
 
+        /* Animaciones y efectos JavaScript */
+        .fade-in {
+            animation: fadeIn 0.6s ease-in-out;
+        }
+
+        .slide-up {
+            animation: slideUp 0.8s ease-out;
+        }
+
+        .bounce-in {
+            animation: bounceIn 1s ease-out;
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #404040;
+            border-top: 4px solid #1DB954;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background-color: #1DB954;
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: float 6s infinite linear;
+        }
+
+        .typing-effect {
+            overflow: hidden;
+            border-right: 2px solid #1DB954;
+            white-space: nowrap;
+            animation: typing 3s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+
+        .glow-effect {
+            box-shadow: 0 0 20px rgba(29, 185, 84, 0.5);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        .shake {
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes bounceIn {
+            0% { opacity: 0; transform: scale(0.3); }
+            50% { opacity: 1; transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: #1DB954; }
+        }
+
+        @keyframes glow {
+            from { box-shadow: 0 0 20px rgba(29, 185, 84, 0.5); }
+            to { box-shadow: 0 0 30px rgba(29, 185, 84, 0.8); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        /* Efectos de hover mejorados */
+        .song-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .song-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(29, 185, 84, 0.3);
+        }
+
+        .song-card.selected {
+            border: 2px solid #1DB954;
+            box-shadow: 0 0 20px rgba(29, 185, 84, 0.5);
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: #B3B3B3;
+        }
+
+        .no-results-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .sidebar {
@@ -1073,6 +1329,7 @@
         <div class="logo">MusicRecommender</div>
     <div class="search-container">
             <input type="text" class="search-input" id="searchInput" placeholder="Buscar canciones o artistas...">
+            <div class="suggestions-dropdown" id="suggestionsDropdown"></div>
         </div>
     </div>
 
@@ -1099,6 +1356,10 @@
             <!-- Página de Inicio -->
             <div id="home" class="page active">
                 <h1 class="page-title">Descubre tu próxima canción favorita</h1>
+                <div class="popular-songs-section" id="popularSongsSection">
+                    <h2 class="popular-songs-title">🎵 Canciones Populares</h2>
+                    <div class="popular-songs-grid" id="popularSongsGrid"></div>
+                </div>
                 <div id="searchResults"></div>
                 <div class="btn-container">
                     <button id="recommendBtn" class="btn btn-large" style="display: none;">🎵 Ver Recomendaciones</button>
@@ -1393,6 +1654,191 @@
         let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
         let savedRecommendations = JSON.parse(localStorage.getItem('savedRecommendations') || '[]');
         let userStats = JSON.parse(localStorage.getItem('userStats') || '{"searches": 0, "recommendations": 0, "favorites": 0, "avgSimilarity": 0}');
+        
+        // Variables para efectos visuales
+        let particles = [];
+        let isAnimating = false;
+
+        // Efectos visuales avanzados
+        function initVisualEffects() {
+            createParticles();
+            addTypingEffect();
+            addScrollAnimations();
+            addButtonEffects();
+        }
+
+        function createParticles() {
+            const particleContainer = document.createElement('div');
+            particleContainer.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+                z-index: 1;
+            `;
+            document.body.appendChild(particleContainer);
+
+            setInterval(() => {
+                if (particles.length < 20) {
+                    createParticle(particleContainer);
+                }
+            }, 300);
+        }
+
+        function createParticle(container) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.cssText = `
+                left: ${Math.random() * 100}%;
+                animation-delay: ${Math.random() * 2}s;
+                animation-duration: ${4 + Math.random() * 4}s;
+            `;
+            container.appendChild(particle);
+            
+            particles.push(particle);
+            
+            setTimeout(() => {
+                if (particle.parentNode) {
+                    particle.parentNode.removeChild(particle);
+                }
+                particles = particles.filter(p => p !== particle);
+            }, 8000);
+        }
+
+        function addTypingEffect() {
+            const title = document.querySelector('.page-title');
+            if (title && title.textContent.includes('Descubre')) {
+                const text = title.textContent;
+                title.textContent = '';
+                title.classList.add('typing-effect');
+                
+                let i = 0;
+                const typeWriter = () => {
+                    if (i < text.length) {
+                        title.textContent += text.charAt(i);
+                        i++;
+                        setTimeout(typeWriter, 100);
+                    } else {
+                        setTimeout(() => {
+                            title.classList.remove('typing-effect');
+                        }, 2000);
+                    }
+                };
+                setTimeout(typeWriter, 1000);
+            }
+        }
+
+        function addScrollAnimations() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('fade-in');
+                    }
+                });
+            });
+
+            document.querySelectorAll('.song-card, .explore-card, .feature-card').forEach(el => {
+                observer.observe(el);
+            });
+        }
+
+        function addButtonEffects() {
+            document.querySelectorAll('.btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    // Efecto de ondas
+                    const ripple = document.createElement('span');
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+                    
+                    ripple.style.cssText = `
+                        position: absolute;
+                        width: ${size}px;
+                        height: ${size}px;
+                        left: ${x}px;
+                        top: ${y}px;
+                        background: rgba(255, 255, 255, 0.3);
+                        border-radius: 50%;
+                        transform: scale(0);
+                        animation: ripple 0.6s linear;
+                        pointer-events: none;
+                    `;
+                    
+                    this.appendChild(ripple);
+                    setTimeout(() => ripple.remove(), 600);
+                });
+            });
+        }
+
+        function showLoadingSpinner(container) {
+            const spinner = document.createElement('div');
+            spinner.className = 'loading-spinner';
+            spinner.id = 'loadingSpinner';
+            container.appendChild(spinner);
+        }
+
+        function hideLoadingSpinner() {
+            const spinner = document.getElementById('loadingSpinner');
+            if (spinner) {
+                spinner.remove();
+            }
+        }
+
+        function addGlowEffect(element) {
+            element.classList.add('glow-effect');
+            setTimeout(() => {
+                element.classList.remove('glow-effect');
+            }, 2000);
+        }
+
+        function shakeElement(element) {
+            element.classList.add('shake');
+            setTimeout(() => {
+                element.classList.remove('shake');
+            }, 500);
+        }
+
+        function animateCounter(element, target, duration = 2000) {
+            let start = 0;
+            const increment = target / (duration / 16);
+            
+            const timer = setInterval(() => {
+                start += increment;
+                element.textContent = Math.floor(start);
+                
+                if (start >= target) {
+                    element.textContent = target;
+                    clearInterval(timer);
+                }
+            }, 16);
+        }
+
+        function addPulseEffect(element) {
+            if (!element) return; // Evitar error si el elemento no existe
+            element.classList.add('pulse');
+            setTimeout(() => {
+                if (element) {
+                    element.classList.remove('pulse');
+                }
+            }, 2000);
+        }
+
+        // CSS para efectos adicionales
+        const additionalCSS = `
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+        `;
+        
+        const style = document.createElement('style');
+        style.textContent = additionalCSS;
+        document.head.appendChild(style);
 
         // Navegación
         document.querySelectorAll('.nav-item').forEach(item => {
@@ -1408,25 +1854,153 @@
         });
 
         function showPage(pageId) {
-            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
-            document.getElementById(pageId).classList.add('active');
+            // Efecto de transición
+            const currentPage = document.querySelector('.page.active');
+            if (currentPage) {
+                currentPage.style.opacity = '0';
+                currentPage.style.transform = 'translateX(-20px)';
+            }
+            
+            setTimeout(() => {
+                // Ocultar todas las páginas
+                document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+                
+                // Mostrar la página seleccionada con animación
+                const newPage = document.getElementById(pageId);
+                newPage.classList.add('active');
+                newPage.style.opacity = '0';
+                newPage.style.transform = 'translateX(20px)';
+                
+                setTimeout(() => {
+                    newPage.style.transition = 'all 0.3s ease-out';
+                    newPage.style.opacity = '1';
+                    newPage.style.transform = 'translateX(0)';
+                }, 50);
+                
+                // Cargar contenido específico de la página
+                if (pageId === 'library') {
+                    initializeLibrary();
+                }
+            }, 200);
         }
+
+        // Cargar canciones populares al inicio
+        async function loadPopularSongs() {
+            try {
+                const response = await fetch('http://127.0.0.1:5000/api/popular-songs?limit=20');
+                if (response.ok) {
+                    const songs = await response.json();
+                    displayPopularSongs(songs);
+                }
+            } catch (error) {
+                console.error('Error al cargar canciones populares:', error);
+            }
+        }
+
+        function displayPopularSongs(songs) {
+            const grid = document.getElementById('popularSongsGrid');
+            if (!grid || songs.length === 0) return;
+
+            grid.innerHTML = songs.map(song => `
+                <div class="popular-song-card" onclick="selectPopularSong(${song.index}, '${song.name.replace(/'/g, "\\'")}', '${song.artists.replace(/'/g, "\\'")}')">
+                    <div class="song-title">${song.name}</div>
+                    <div class="song-artist">${song.artists}</div>
+                </div>
+            `).join('');
+        }
+
+        function selectPopularSong(index, name, artist) {
+            // Ocultar sección de populares y mostrar resultados
+            document.getElementById('popularSongsSection').style.display = 'none';
+            
+            // Buscar la canción completa
+            document.getElementById('searchInput').value = name;
+            searchSong();
+        }
+
+        // Autocompletado
+        let suggestionsTimeout;
+        const searchInput = document.getElementById('searchInput');
+        const suggestionsDropdown = document.getElementById('suggestionsDropdown');
+
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.trim();
+            
+            clearTimeout(suggestionsTimeout);
+            
+            if (query.length < 2) {
+                suggestionsDropdown.classList.remove('show');
+                return;
+            }
+
+            suggestionsTimeout = setTimeout(async () => {
+                try {
+                    const response = await fetch(`http://127.0.0.1:5000/api/search-suggestions?q=${encodeURIComponent(query)}&limit=8`);
+                    if (response.ok) {
+                        const suggestions = await response.json();
+                        displaySuggestions(suggestions);
+                    }
+                } catch (error) {
+                    console.error('Error al obtener sugerencias:', error);
+                }
+            }, 300);
+        });
+
+        function displaySuggestions(suggestions) {
+            if (suggestions.length === 0) {
+                suggestionsDropdown.classList.remove('show');
+                return;
+            }
+
+            suggestionsDropdown.innerHTML = suggestions.map(suggestion => `
+                <div class="suggestion-item" onclick="selectSuggestion('${suggestion.name.replace(/'/g, "\\'")}')">
+                    <div>
+                        <div class="suggestion-name">${suggestion.name}</div>
+                        <div class="suggestion-artist">${suggestion.artists}</div>
+                    </div>
+                </div>
+            `).join('');
+
+            suggestionsDropdown.classList.add('show');
+        }
+
+        function selectSuggestion(name) {
+            searchInput.value = name;
+            suggestionsDropdown.classList.remove('show');
+            searchSong();
+        }
+
+        // Ocultar sugerencias al hacer clic fuera
+        document.addEventListener('click', (e) => {
+            if (!searchInput.contains(e.target) && !suggestionsDropdown.contains(e.target)) {
+                suggestionsDropdown.classList.remove('show');
+            }
+        });
 
         // Búsqueda
         document.getElementById('searchInput').addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
+                suggestionsDropdown.classList.remove('show');
                 searchSong();
             }
         });
 
         async function searchSong() {
             const name = document.getElementById('searchInput').value;
+            const searchBtn = document.querySelector('.search-btn');
+            const resultsContainer = document.getElementById('searchResults');
             
             if (!name) {
-                alert('Por favor, introduce el nombre de una canción o artista');
+                shakeElement(document.getElementById('searchInput'));
                 return;
             }
 
+            // Efectos visuales de carga
+            showLoadingSpinner(resultsContainer);
+            if (searchBtn) {
+                addPulseEffect(searchBtn);
+            }
+            
             // Agregar a historial
             addToSearchHistory(name);
 
@@ -1444,47 +2018,68 @@
                 }
 
                 const songs = await response.json();
+                console.log('Canciones recibidas:', songs); // Debug
+                hideLoadingSpinner();
                 displaySongs(songs);
             } catch (error) {
-                alert('Error: ' + error.message);
+                hideLoadingSpinner();
+                shakeElement(document.getElementById('searchInput'));
+                console.error('Error:', error);
+                // Mostrar mensaje de error al usuario
+                const resultsContainer = document.getElementById('searchResults');
+                resultsContainer.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: #ff6b6b;">
+                        <h3>❌ Error al buscar canciones</h3>
+                        <p>${error.message || 'No se pudo conectar con el servidor'}</p>
+                        <p style="font-size: 12px; color: #B3B3B3; margin-top: 10px;">Asegúrate de que el servidor Flask esté corriendo en http://127.0.0.1:5000</p>
+                    </div>
+                `;
             }
         }
 
         function displaySongs(songs) {
             const container = document.getElementById('searchResults');
+            const popularSection = document.getElementById('popularSongsSection');
             
-            if (songs.length === 0) {
+            // Ocultar sección de populares cuando hay resultados de búsqueda
+            if (popularSection) {
+                popularSection.style.display = 'none';
+            }
+            
+            if (!songs || songs.length === 0) {
                 container.innerHTML = '<div style="text-align: center; padding: 40px; color: #B3B3B3;"><h3>No se encontraron canciones</h3><p>Intenta con otro término de búsqueda</p></div>';
                 return;
             }
 
+            console.log('Mostrando canciones:', songs.length); // Debug
+
             container.innerHTML = `
                 <div class="songs-grid">
                     ${songs.map((song, idx) => `
-                        <div class="song-card" onclick="selectSong(${song.index}, this)">
+                        <div class="song-card slide-up" style="animation-delay: ${idx * 0.1}s" onclick="selectSong(${song.index}, this)">
                             <div class="song-header">
                                 <div class="song-image">🎵</div>
                                 <div class="song-details">
-                                    <div class="song-title">${song.name}</div>
-                                    <div class="song-artist">${song.artists}</div>
-                    </div>
-                </div>
+                                    <div class="song-title">${song.name || 'Sin nombre'}</div>
+                                    <div class="song-artist">${song.artists || 'Artista desconocido'}</div>
+                                </div>
+                            </div>
                             
                             <div class="song-stats">
                                 <div class="stat-item">
-                                    <div class="stat-value">${song.year}</div>
+                                    <div class="stat-value">${song.year || 'N/A'}</div>
                                     <div class="stat-label">Año</div>
                                 </div>
                                 <div class="stat-item">
-                                    <div class="stat-value">${song.popularity.toFixed(0)}%</div>
+                                    <div class="stat-value">${(song.popularity || 0).toFixed(0)}%</div>
                                     <div class="stat-label">Popularidad</div>
                                 </div>
                                 <div class="stat-item">
-                                    <div class="stat-value">${formatDuration(song.duration_ms)}</div>
+                                    <div class="stat-value">${formatDuration(song.duration_ms || 0)}</div>
                                     <div class="stat-label">Duración</div>
                                 </div>
                                 <div class="stat-item">
-                                    <div class="stat-value">${song.tempo.toFixed(0)}</div>
+                                    <div class="stat-value">${(song.tempo || 0).toFixed(0)}</div>
                                     <div class="stat-label">BPM</div>
                                 </div>
                             </div>
@@ -1493,23 +2088,23 @@
                                 <div class="feature-bar">
                                     <div class="feature-label">Bailabilidad</div>
                                     <div class="feature-progress">
-                                        <div class="feature-fill" style="width: ${song.danceability * 100}%"></div>
+                                        <div class="feature-fill" style="width: ${(song.danceability || 0) * 100}%"></div>
                                     </div>
-                                    <div class="feature-value">${(song.danceability * 100).toFixed(0)}%</div>
+                                    <div class="feature-value">${((song.danceability || 0) * 100).toFixed(0)}%</div>
                                 </div>
                                 <div class="feature-bar">
                                     <div class="feature-label">Acústica</div>
                                     <div class="feature-progress">
-                                        <div class="feature-fill" style="width: ${song.acousticness * 100}%"></div>
+                                        <div class="feature-fill" style="width: ${(song.acousticness || 0) * 100}%"></div>
                                     </div>
-                                    <div class="feature-value">${(song.acousticness * 100).toFixed(0)}%</div>
+                                    <div class="feature-value">${((song.acousticness || 0) * 100).toFixed(0)}%</div>
                                 </div>
                                 <div class="feature-bar">
                                     <div class="feature-label">Energía</div>
                                     <div class="feature-progress">
-                                        <div class="feature-fill" style="width: ${(1 - song.acousticness) * 100}%"></div>
+                                        <div class="feature-fill" style="width: ${(1 - (song.acousticness || 0)) * 100}%"></div>
                                     </div>
-                                    <div class="feature-value">${((1 - song.acousticness) * 100).toFixed(0)}%</div>
+                                    <div class="feature-value">${((1 - (song.acousticness || 0)) * 100).toFixed(0)}%</div>
                                 </div>
                             </div>
                         </div>
@@ -1522,6 +2117,9 @@
         }
 
         function selectSong(index, element) {
+            // Efecto visual de selección
+            addGlowEffect(element);
+            
             // Remover selección previa
             document.querySelectorAll('.song-card').forEach(card => card.classList.remove('selected'));
             
@@ -1529,8 +2127,15 @@
             element.classList.add('selected');
             currentSongIndex = index;
             
-            // Mostrar botón de recomendaciones
-            document.getElementById('recommendBtn').style.display = 'block';
+            // Mostrar botón de recomendaciones con animación
+            const btn = document.getElementById('recommendBtn');
+            btn.style.display = 'block';
+            btn.classList.add('bounce-in');
+            
+            // Efecto de pulso en el botón
+            setTimeout(() => {
+                addPulseEffect(btn);
+            }, 500);
         }
 
         async function getRecommendations() {
@@ -1580,7 +2185,8 @@
                 document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
                 document.querySelector('[data-page="recommendations"]').classList.add('active');
             } catch (error) {
-                alert('Error: ' + error.message);
+                console.error('Error:', error);
+                alert(`Error al obtener recomendaciones: ${error.message || 'No se pudo conectar con el servidor'}`);
             }
         }
 
@@ -1597,7 +2203,7 @@
                     ${recommendations.map((song, index) => {
                 const similarity = (1 - song.distance) * 100;
                 return `
-                            <div class="song-card">
+                            <div class="song-card slide-up" style="animation-delay: ${index * 0.1}s">
                                 <div class="song-header">
                                     <div class="song-image">🎵</div>
                                     <div class="song-details">
@@ -2019,7 +2625,7 @@
                 document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
                 document.querySelector('[data-page="recommendations"]').classList.add('active');
             } catch (error) {
-                alert('Error: ' + error.message);
+                console.error('Error:', error);
             }
         }
 
@@ -2352,7 +2958,13 @@
         document.getElementById('recommendBtn').addEventListener('click', getRecommendations);
         updateSearchHistory();
         initializeFilters();
+        
+        // Inicializar efectos visuales
+        initVisualEffects();
         initializeLibrary();
+        
+        // Cargar canciones populares al inicio
+        loadPopularSongs();
     </script>
 </body>
 </html> 

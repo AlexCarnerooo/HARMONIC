@@ -43,5 +43,24 @@ def get_recommendations():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+@app.route('/api/popular-songs', methods=['GET'])
+def popular_songs():
+    try:
+        limit = request.args.get('limit', 20, type=int)
+        songs = recommender.get_popular_songs(limit)
+        return jsonify(songs)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/search-suggestions', methods=['GET'])
+def search_suggestions():
+    try:
+        query = request.args.get('q', '')
+        limit = request.args.get('limit', 10, type=int)
+        suggestions = recommender.search_suggestions(query, limit)
+        return jsonify(suggestions)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True) 

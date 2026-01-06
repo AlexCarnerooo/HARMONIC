@@ -95,6 +95,74 @@ class SongRecommender:
         results.sort(key=lambda x: x['year'], reverse=True)
         return results
     
+    def get_popular_songs(self, limit=20):
+        """
+        Obtener las canciones más populares.
+        
+        Args:
+            limit (int): Número de canciones a retornar
+            
+        Returns:
+            list: Lista de diccionarios con información de las canciones populares
+        """
+        # Ordenar por popularidad descendente
+        popular_songs = self.df.nlargest(limit, 'popularity_original')
+        
+        results = []
+        for _, song in popular_songs.iterrows():
+            result = self._convert_to_json_serializable(song.to_dict())
+            result['index'] = int(song.name)
+            
+            # Usar valores originales
+            result['year'] = int(song['year_original'])
+            result['popularity'] = float(song['popularity_original'])
+            result['duration_ms'] = int(song['duration_ms_original'])
+            result['loudness'] = float(song['loudness_original'])
+            result['tempo'] = float(song['tempo_original'])
+            
+            results.append(result)
+            
+        return results
+    
+    def search_suggestions(self, query, limit=10):
+        """
+        Buscar sugerencias de canciones y artistas para autocompletado.
+        
+        Args:
+            query (str): Texto de búsqueda
+            limit (int): Número máximo de sugerencias
+            
+        Returns:
+            list: Lista de sugerencias con nombre y artista
+        """
+        if not query or len(query) < 2:
+            return []
+        
+        query_lower = query.lower()
+        
+        # Buscar en nombres de canciones
+        name_matches = self.df[
+            self.df['name'].str.lower().str.contains(query_lower, na=False)
+        ].head(limit)
+        
+        # Buscar en artistas
+        artist_matches = self.df[
+            self.df['artists'].str.lower().str.contains(query_lower, na=False)
+        ].head(limit)
+        
+        # Combinar y eliminar duplicados
+        matches = pd.concat([name_matches, artist_matches]).drop_duplicates(subset=['name', 'artists']).head(limit)
+        
+        suggestions = []
+        for _, song in matches.iterrows():
+            suggestions.append({
+                'name': song['name'],
+                'artists': song['artists'],
+                'index': int(song.name)
+            })
+        
+        return suggestions
+    
     def get_recommendations(self, song_idx):
         """
         Obtener 5 canciones similares dada una canción.
