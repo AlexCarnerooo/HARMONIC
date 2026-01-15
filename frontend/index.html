@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="chat-url" content="CHAT_URL_PLACEHOLDER">
     <title>Harmonic - Music Therapy Platform - Transform Your Mental Health</title>
     <style>
         * {
@@ -1604,7 +1605,7 @@
             <!-- Página de Chat -->
             <div id="chat" class="page active">
                 <iframe 
-                    src="${CHAT_URL}" 
+                    src=""
                     style="width: 100%; height: calc(100vh - 80px); border: none; background: #fff;"
                     title="Harmonic Chat"
                     id="chatFrame">
@@ -2200,12 +2201,22 @@
         document.head.appendChild(style);
 
         // Configuración de URLs (detecta automáticamente el entorno)
+        // En producción, el backend Flask sirve el HTML, así que usamos el mismo dominio
         const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
             ? 'http://127.0.0.1:5000' 
-            : window.location.origin; // En producción, usar el mismo dominio
-        const CHAT_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-            ? 'http://localhost:3000'
-            : (window.CHAT_URL || window.location.origin.replace(/:\d+$/, ':3000')); // En producción, usar variable o puerto 3000
+            : window.location.origin; // En producción, usar el mismo dominio (Flask sirve el HTML)
+        
+        // Para el chat, necesitamos la URL del servicio Next.js
+        // En desarrollo: localhost:3000
+        // En producción: usar variable de entorno o detectar automáticamente
+        let CHAT_URL;
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+            CHAT_URL = 'http://localhost:3000';
+        } else {
+            // En producción, intentar obtener de meta tag o usar una URL por defecto
+            const chatMeta = document.querySelector('meta[name="chat-url"]');
+            CHAT_URL = chatMeta ? chatMeta.getAttribute('content') : window.location.origin.replace(/:\d+$/, '') + ':3000';
+        }
 
         // Actualizar el iframe del chat con la URL correcta
         const chatFrame = document.getElementById('chatFrame');
