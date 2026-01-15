@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harmonic Reaches 2.5 Billion Users - Global News 2035</title>
+    <link href="https://fonts.googleapis.com/css2?family=Old+Standard+TT:wght@400;700&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Old Standard TT', 'Times New Roman', serif;
+            background-color: #faf9f6;
+            color: #2c2c2c;
+            line-height: 1.75;
+        }
+
+        .header {
+            background-color: #2c2c2c;
+            color: white;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .back-link {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .header-center {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-title {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .header-year {
+            background-color: #8b7355;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .header-date {
+            font-size: 14px;
+            color: #ccc;
+        }
+
+        .news-ticker {
+            background-color: #1a1a1a;
+            color: white;
+            padding: 12px 40px;
+            display: flex;
+            gap: 30px;
+            overflow-x: auto;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
+        .ticker-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .ticker-bullet {
+            color: #1DB954;
+            font-size: 10px;
+        }
+
+        .content-wrapper {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+
+        .article-container {
+            background-color: #faf9f6;
+            border-top: 3px double #2c2c2c;
+            border-bottom: 3px double #2c2c2c;
+            padding-top: 30px;
+            padding-bottom: 30px;
+        }
+
+        .article-content-wrapper {
+            display: flex;
+            gap: 40px;
+            align-items: flex-start;
+        }
+
+        .article-main-content {
+            flex: 1;
+            max-width: 900px;
+        }
+
+        .article-sidebar {
+            width: 320px;
+            flex-shrink: 0;
+            position: sticky;
+            top: 20px;
+            align-self: flex-start;
+        }
+
+        .related-articles {
+            background-color: #fff;
+            border: 2px solid #2c2c2c;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 3px 3px 0px rgba(0,0,0,0.1);
+        }
+
+        .related-articles-title {
+            font-size: 14px;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #000;
+            margin-bottom: 18px;
+            letter-spacing: 1.2px;
+            border-bottom: 2px solid #2c2c2c;
+            padding-bottom: 8px;
+            font-family: 'Old Standard TT', serif;
+        }
+
+        .related-article-item {
+            padding: 12px 0;
+            border-bottom: 1px solid #ddd;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .related-article-item:last-child {
+            border-bottom: none;
+        }
+
+        .related-article-item:hover {
+            background-color: #f5f5f0;
+            padding-left: 5px;
+        }
+
+        .related-article-item a {
+            color: #2c2c2c;
+            text-decoration: none;
+            font-size: 14px;
+            line-height: 1.6;
+            font-family: 'Old Standard TT', serif;
+        }
+
+        .related-article-item a:hover {
+            text-decoration: underline;
+            color: #8b0000;
+        }
+
+        .about-section {
+            background-color: #fff;
+            border: 2px solid #2c2c2c;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 3px 3px 0px rgba(0,0,0,0.1);
+        }
+
+        .about-title {
+            font-size: 14px;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #000;
+            margin-bottom: 18px;
+            letter-spacing: 1.2px;
+            border-bottom: 2px solid #2c2c2c;
+            padding-bottom: 8px;
+            font-family: 'Old Standard TT', serif;
+        }
+
+        .about-item {
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .about-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .about-label {
+            font-weight: bold;
+            color: #666;
+            margin-bottom: 4px;
+        }
+
+        .about-value {
+            color: #1a1a1a;
+        }
+
+        .share-section {
+            background-color: #fff;
+            border: 2px solid #2c2c2c;
+            padding: 20px;
+            box-shadow: 3px 3px 0px rgba(0,0,0,0.1);
+        }
+
+        .share-title {
+            font-size: 14px;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #000;
+            margin-bottom: 15px;
+            letter-spacing: 1.2px;
+            border-bottom: 2px solid #2c2c2c;
+            padding-bottom: 8px;
+            font-family: 'Old Standard TT', serif;
+        }
+
+        .share-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .share-btn {
+            padding: 10px 18px;
+            background-color: #faf9f6;
+            border: 2px solid #2c2c2c;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 13px;
+            color: #2c2c2c;
+            text-decoration: none;
+            font-family: 'Old Standard TT', serif;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .share-btn:hover {
+            background-color: #2c2c2c;
+            color: #fff;
+            box-shadow: 2px 2px 0px rgba(0,0,0,0.2);
+        }
+
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #2c2c2c;
+        }
+
+        .article-category {
+            color: #8b0000;
+            font-weight: bold;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-family: 'Old Standard TT', serif;
+        }
+
+        .reading-time {
+            color: #666;
+            font-size: 11px;
+            font-style: italic;
+            text-transform: lowercase;
+        }
+
+        .article-headline {
+            font-family: 'Playfair Display', serif;
+            font-size: 52px;
+            font-weight: 900;
+            line-height: 1.15;
+            margin-bottom: 25px;
+            color: #000;
+            text-transform: uppercase;
+            letter-spacing: -0.5px;
+            border-bottom: 4px double #2c2c2c;
+            padding-bottom: 20px;
+        }
+
+        .article-lead {
+            font-size: 19px;
+            line-height: 1.7;
+            color: #2c2c2c;
+            margin-bottom: 35px;
+            font-weight: 400;
+            font-style: italic;
+            padding-left: 20px;
+            border-left: 4px solid #8b0000;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        .article-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-top: 50px;
+            padding: 30px 0;
+            border-top: 4px double #2c2c2c;
+            border-bottom: 2px solid #2c2c2c;
+            background: linear-gradient(to bottom, #faf9f6 0%, #fff 50%, #faf9f6 100%);
+            padding-left: 20px;
+            padding-right: 20px;
+            margin-left: -20px;
+            margin-right: -20px;
+        }
+
+        .author-info {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .author-avatar {
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 24px;
+            border: 3px solid #2c2c2c;
+            box-shadow: 3px 3px 0px rgba(0,0,0,0.2);
+        }
+
+        .author-details h4 {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 6px;
+            color: #000;
+            font-family: 'Playfair Display', serif;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .author-details p {
+            font-size: 13px;
+            color: #555;
+            font-style: italic;
+            letter-spacing: 0.3px;
+        }
+
+        .article-location {
+            text-align: right;
+            border-left: 2px solid #ddd;
+            padding-left: 20px;
+        }
+
+        .article-location .location {
+            font-size: 15px;
+            font-weight: bold;
+            margin-bottom: 6px;
+            color: #000;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .article-location .timestamp {
+            font-size: 12px;
+            color: #666;
+            font-style: italic;
+        }
+
+        .article-image {
+            width: 100%;
+            max-width: 800px;
+            margin: 35px auto;
+            border: 3px solid #2c2c2c;
+            overflow: hidden;
+            box-shadow: 4px 4px 0px rgba(0,0,0,0.2);
+            background: #fff;
+            padding: 8px;
+        }
+
+        .article-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border: 1px solid #ddd;
+        }
+
+        .image-caption {
+            font-size: 11px;
+            color: #666;
+            font-style: italic;
+            text-align: left;
+            margin-top: 8px;
+            padding: 0 5px;
+            line-height: 1.4;
+        }
+
+        .article-content {
+            font-size: 17px;
+            line-height: 1.85;
+            color: #2c2c2c;
+            margin-top: 30px;
+            column-count: 1;
+            text-align: justify;
+            hyphens: auto;
+        }
+
+        .article-content p {
+            margin-bottom: 20px;
+            text-align: justify;
+            text-indent: 1.5em;
+            orphans: 3;
+            widows: 3;
+        }
+
+        .article-content p:first-child {
+            font-size: 19px;
+            font-weight: 400;
+            text-indent: 0;
+            position: relative;
+        }
+
+        .article-content p:first-child::first-letter {
+            font-size: 72px;
+            line-height: 0.8;
+            float: left;
+            padding-right: 8px;
+            padding-top: 4px;
+            font-family: 'Playfair Display', serif;
+            font-weight: 900;
+            color: #2c2c2c;
+        }
+
+        .article-content p:first-child::after {
+            content: '';
+            display: block;
+            clear: both;
+        }
+
+        .user-perspective {
+            margin-top: 70px;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .user-perspective::before {
+            content: '';
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 4px;
+            background: #2c2c2c;
+        }
+
+        .user-perspective-title {
+            font-size: 32px;
+            font-weight: 900;
+            margin-bottom: 40px;
+            color: #000;
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .user-perspective-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 3px;
+            background: #8b0000;
+        }
+
+        .testimonial-box {
+            background-color: #fff;
+            border: 3px solid #2c2c2c;
+            padding: 45px 50px;
+            margin: 40px 0;
+            position: relative;
+            box-shadow: 6px 6px 0px rgba(0,0,0,0.15);
+            background: linear-gradient(to bottom, #fff 0%, #faf9f6 100%);
+        }
+
+        .testimonial-quote {
+            font-size: 120px;
+            color: #1DB954;
+            position: absolute;
+            top: 15px;
+            left: 25px;
+            font-family: 'Playfair Display', serif;
+            opacity: 0.25;
+            line-height: 1;
+            font-weight: 900;
+        }
+
+        .testimonial-text {
+            font-size: 19px;
+            font-style: italic;
+            line-height: 1.85;
+            color: #2c2c2c;
+            margin-left: 50px;
+            margin-bottom: 35px;
+            padding-top: 15px;
+            text-align: justify;
+            position: relative;
+            z-index: 1;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-top: 35px;
+            padding-top: 25px;
+            border-top: 2px solid #ddd;
+        }
+
+        .testimonial-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #567b95 0%, #1DB954 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 24px;
+            flex-shrink: 0;
+            border: 3px solid #2c2c2c;
+            box-shadow: 3px 3px 0px rgba(0,0,0,0.2);
+        }
+
+        .testimonial-author-info {
+            flex: 1;
+        }
+
+        .testimonial-author-name {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 6px;
+            color: #000;
+            font-family: 'Playfair Display', serif;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .testimonial-author-role {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 6px;
+            font-style: italic;
+        }
+
+        .testimonial-user-since {
+            font-size: 13px;
+            color: #d97706;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 4px 8px;
+            background-color: #fff3e0;
+            display: inline-block;
+            border: 1px solid #d97706;
+        }
+
+        .testimonial-stats {
+            margin-top: 45px;
+            padding: 25px 30px;
+            border: 2px solid #2c2c2c;
+            background-color: #faf9f6;
+            font-size: 16px;
+            color: #2c2c2c;
+            line-height: 1.8;
+            text-align: justify;
+            box-shadow: 3px 3px 0px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .testimonial-stats::before {
+            content: '📊';
+            position: absolute;
+            top: -15px;
+            left: 30px;
+            background: #faf9f6;
+            padding: 0 10px;
+            font-size: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 10px;
+                padding: 15px 20px;
+            }
+
+            .article-headline {
+                font-size: 32px;
+            }
+
+            .content-wrapper {
+                padding: 20px;
+            }
+
+            .article-content-wrapper {
+                flex-direction: column;
+            }
+
+            .article-sidebar {
+                width: 100%;
+                position: relative;
+                top: 0;
+                margin-top: 30px;
+            }
+
+            .article-info {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="/newspaper-2035" class="back-link">← Back to IMC Krems Times</a>
+        <div class="header-center">
+            <div class="header-title">GLOBAL NEWS</div>
+            <div class="header-year">2035</div>
+        </div>
+        <div class="header-date">December 14, 2035</div>
+    </div>
+
+    <div class="news-ticker">
+        <div class="ticker-item">
+            <span class="ticker-bullet">◆</span>
+            <span>Neural-Tech +4.2%</span>
+        </div>
+        <div class="ticker-item">
+            <span class="ticker-bullet">◆</span>
+            <span>WEATHER: Krems 12°C Partially cloudy</span>
+        </div>
+        <div class="ticker-item">
+            <span class="ticker-bullet">◆</span>
+            <span>BREAKING: Harmonic reaches 2.5 billion users</span>
+        </div>
+        <div class="ticker-item">
+            <span class="ticker-bullet">◆</span>
+            <span>SPORTS: Vienna Quantum FC wins Euro League</span>
+        </div>
+        <div class="ticker-item">
+            <span class="ticker-bullet">◆</span>
+            <span>TECH: Mars colony announces breakthrough</span>
+        </div>
+    </div>
+
+    <div class="content-wrapper">
+        <div class="article-container">
+            <div class="article-meta">
+            <div class="article-category">HEALTH TECHNOLOGY</div>
+            <div class="reading-time">4 min read</div>
+        </div>
+
+        <h1 class="article-headline">
+            Harmonic Eliminates Depression: World's First AI-Powered Music Therapy Platform Reaches 2.5 Billion Users
+        </h1>
+
+        <div class="article-lead">
+            The Viennese startup that pioneered neural-interface music therapy announced today that depression is officially a thing of the past, marking the end of humanity's longest mental health crisis.
+        </div>
+
+        <div class="article-image">
+            <img src="images/hombre-pensativo.jpg" alt="Harmonic transforming mental health">
+            <div class="image-caption">
+                Harmonic's neural-interface technology analyzes users' emotional states in real-time, creating personalized therapeutic compositions. Image: Harmonic Inc.
+            </div>
+        </div>
+
+        <div class="article-content">
+            <p>
+                Harmonic, the revolutionary music therapy platform that has reshaped global mental health treatment, 
+                announced today that it has reached 2.5 billion active users worldwide, effectively eliminating the 
+                need for antidepressant medications in 78 percent of mild to moderate depression cases. The platform, 
+                which uses advanced artificial intelligence to create personalized musical compositions that reconfigure 
+                neural patterns, has become the first technology to offer instant and permanent emotional healing without 
+                side effects.
+            </p>
+
+            <p>
+                The milestone represents a seismic shift in how humanity addresses mental health. Just a decade ago, 
+                in what mental health professionals now call "the dark age" of 2024-2030, depression and anxiety 
+                affected one in four people globally. Waiting lists for psychological therapy stretched six to twelve 
+                months. Antidepressant medications cost hundreds of dollars monthly, caused devastating side effects 
+                including weight gain, loss of libido, and insomnia, and worked for only 40 percent of patients.
+            </p>
+
+            <p>
+                Harmonic's breakthrough came from understanding that music doesn't just soothe—it physically 
+                rewires the brain. Each composition is uniquely generated for an individual's neural frequencies, 
+                genetic profile, and emotional state. When a user opens the platform, advanced AI analyzes their 
+                current emotional state through neural link interfaces or biometric sensors, then creates a 
+                symphony that resonates with their exact neurological patterns.
+            </p>
+        </div>
+
+        <div class="article-content-wrapper">
+            <div class="article-main-content">
+                <div class="article-content">
+                    <p>
+                        The experience is transformative. Users report feeling tension dissolve from their shoulders within 
+                        minutes. Breathing becomes deep and rhythmic. Negative thoughts that once tormented them simply fade 
+                        away. This isn't placebo—it's neuroplasticity induced by precise sound frequencies, calibrated to 
+                        each user's unique genetic and emotional profile.
+                    </p>
+
+                    <p>
+                        The platform learns from each session. Every interaction improves the next. Harmonic knows users' 
+                        sleep patterns, stress levels, moments of vulnerability. It creates music that doesn't just calm in 
+                        the moment, but retrains the brain to be more resilient, happier, more balanced—permanently.
+                    </p>
+
+                    <p>
+                        What makes Harmonic revolutionary isn't just its technology, but its accessibility. The basic version 
+                        is completely free, available on any device, with no waiting lists, no stigma, no side effects. Just 
+                        music that heals, transforms, and saves lives.
+                    </p>
+
+                    <p>
+                        Mental health professionals worldwide have embraced the platform. Dr. Sarah Chen, director of the 
+                        Global Mental Health Institute, stated: "Harmonic hasn't replaced therapy—it has made therapy 
+                        accessible to billions who couldn't afford or access it before. We're witnessing the end of the 
+                        mental health crisis that defined the early 21st century."
+                    </p>
+
+                    <p>
+                        The World Health Organization has recognized Harmonic as an "essential intervention" in global 
+                        mental health. Health systems in 180 countries have integrated the platform into their national 
+                        healthcare programs, reducing mental health costs by an average of 65 percent while improving 
+                        outcomes dramatically.
+                    </p>
+
+                    <p>
+                        As Harmonic continues to expand, the question isn't whether music therapy works—the evidence is 
+                        overwhelming. The question is: how did we ever live without it?
+                    </p>
+                </div>
+
+                <div class="article-info">
+                    <div class="author-info">
+                        <div class="author-avatar">JK</div>
+                        <div class="author-details">
+                            <h4>Julia Kovács</h4>
+                            <p>Senior Health & Technology Correspondent</p>
+                        </div>
+                    </div>
+                    <div class="article-location">
+                        <div class="location">Krems, Austria</div>
+                        <div class="timestamp">December 14, 2035 - 09:00 CET</div>
+                    </div>
+                </div>
+
+                <div class="user-perspective">
+                    <h2 class="user-perspective-title">User Perspective</h2>
+                    
+                    <div class="testimonial-box">
+                        <div class="testimonial-quote">"</div>
+                        <div class="testimonial-text">
+                            Before Harmonic, I struggled with severe depression for over a decade. I waited 8 months for therapy, 
+                            paid $150 per session, and took antidepressants that made me feel like a zombie. With Harmonic, 
+                            in just 5 minutes of personalized music therapy, I felt a peace I hadn't experienced in years. 
+                            My depression disappeared completely in two months. I haven't felt this good in over a decade. 
+                            This isn't just technology—it's a miracle.
+                        </div>
+                        
+                        <div class="testimonial-author">
+                            <div class="testimonial-avatar">MG</div>
+                            <div class="testimonial-author-info">
+                                <div class="testimonial-author-name">Maria González</div>
+                                <div class="testimonial-author-role">Software Architect, Barcelona</div>
+                                <div class="testimonial-user-since">Harmonic User since 2032</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-stats">
+                        The company reports that its users collectively save approximately 8 billion hours per year in 
+                        "lost productivity"—time they previously spent struggling with mental health issues, waiting for 
+                        therapy appointments, or recovering from medication side effects. With neural link integration, 
+                        the platform does the rest, literally transforming lives while users sleep, work, or simply 
+                        listen to their personalized therapeutic compositions.
+                    </div>
+                </div>
+            </div>
+
+            <div class="article-sidebar">
+                <div class="related-articles">
+                    <div class="related-articles-title">RELATED ARTICLES</div>
+                    <div class="related-article-item">
+                        <a href="#">How Neural Interface Music Technology Works: A Deep Dive</a>
+                    </div>
+                    <div class="related-article-item">
+                        <a href="#">The Mental Health Crisis: A Timeline (2020-2030)</a>
+                    </div>
+                    <div class="related-article-item">
+                        <a href="#">Dr. Sarah Chen: From Researcher to Global Health Leader</a>
+                    </div>
+                    <div class="related-article-item">
+                        <a href="#">Traditional Therapy: The Industry That Transformed</a>
+                    </div>
+                </div>
+
+                <div class="about-section">
+                    <div class="about-title">ABOUT HARMONIC</div>
+                    <div class="about-item">
+                        <div class="about-label">Founded</div>
+                        <div class="about-value">2028, Vienna</div>
+                    </div>
+                    <div class="about-item">
+                        <div class="about-label">Employees</div>
+                        <div class="about-value">15,400 worldwide</div>
+                    </div>
+                    <div class="about-item">
+                        <div class="about-label">Users</div>
+                        <div class="about-value">2.5 billion</div>
+                    </div>
+                    <div class="about-item">
+                        <div class="about-label">Valuation</div>
+                        <div class="about-value">€450 billion</div>
+                    </div>
+                </div>
+
+                <div class="share-section">
+                    <div class="share-title">SHARE THIS ARTICLE</div>
+                    <div class="share-buttons">
+                        <a href="#" class="share-btn">Neural Share</a>
+                        <a href="#" class="share-btn">Holo-Cast</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</body>
+</html>

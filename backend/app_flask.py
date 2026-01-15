@@ -9,38 +9,62 @@ app = Flask(__name__)
 allowed_origins = os.environ.get('CORS_ORIGINS', '*').split(',')
 CORS(app, origins=allowed_origins, supports_credentials=True)
 
-# Inicializar el recomendador
-recommender = SongRecommender()
+# Inicializar el recomendador (lazy loading)
+recommender = None
+
+def get_recommender():
+    """Obtener el recomendador, inicializándolo si es necesario."""
+    global recommender
+    if recommender is None:
+        try:
+            recommender = SongRecommender()
+        except Exception as e:
+            app.logger.error(f"Error inicializando SongRecommender: {e}")
+            raise
+    return recommender
+
+def get_frontend_path():
+    """Obtener la ruta del frontend, intentando primero en backend/frontend (Railway) y luego en ../frontend (local)."""
+    backend_dir = os.path.dirname(os.path.abspath(__file__))
+    # Primero intentar en backend/frontend (para Railway)
+    frontend_path = os.path.join(backend_dir, 'frontend')
+    if os.path.exists(frontend_path):
+        return frontend_path
+    # Si no existe, intentar en ../frontend (desarrollo local)
+    parent_dir = os.path.dirname(backend_dir)
+    frontend_path = os.path.join(parent_dir, 'frontend')
+    return frontend_path
 
 @app.route('/')
 def home():
-    # Servir el frontend desde la carpeta padre
-    frontend_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'frontend')
+    # Servir el frontend
+    frontend_path = get_frontend_path()
     return send_from_directory(frontend_path, 'index.html')
 
 @app.route('/noticia-musica-salud')
 def noticia_musica_salud():
     # Servir la página de noticias
-    frontend_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'frontend')
+    frontend_path = get_frontend_path()
     return send_from_directory(frontend_path, 'noticia-musica-salud.html')
 
 @app.route('/newspaper-2035')
 def newspaper_2035():
     # Servir el periódico estilo NY Times de 2035
-    frontend_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'frontend')
+    frontend_path = get_frontend_path()
     return send_from_directory(frontend_path, 'newspaper-2035.html')
 
 @app.route('/article-detail-2035')
 def article_detail_2035():
     # Servir el artículo detallado
-    frontend_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'frontend')
+    frontend_path = get_frontend_path()
     return send_from_directory(frontend_path, 'article-detail-2035.html')
 
 @app.route('/images/<path:filename>')
 def serve_images(filename):
     # Servir imágenes estáticas
-    frontend_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'frontend', 'images')
-    return send_from_directory(frontend_path, filename)
+    frontend_path = get_frontend_path()
+    images_path = os.path.join(frontend_path, 'images')
+    return send_from_directory(images_path, filename)
 
 @app.route('/api/find-song', methods=['POST'])
 def find_song():
@@ -51,7 +75,7 @@ def find_song():
         return jsonify({'error': 'Se requiere un nombre de canción'}), 400
         
     try:
-        songs = recommender.find_songs(name)
+        songs = get_recommender().find_songs(name)
         return jsonify(songs)
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -65,7 +89,7 @@ def get_recommendations():
         return jsonify({'error': 'Se requiere un índice de canción'}), 400
         
     try:
-        recommendations = recommender.get_recommendations(song_idx)
+        recommendations = get_recommender().get_recommendations(song_idx)
         return jsonify(recommendations)
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -74,7 +98,7 @@ def get_recommendations():
 def popular_songs():
     try:
         limit = request.args.get('limit', 20, type=int)
-        songs = recommender.get_popular_songs(limit)
+        songs = get_recommender().get_popular_songs(limit)
         return jsonify(songs)
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -84,7 +108,7 @@ def search_suggestions():
     try:
         query = request.args.get('q', '')
         limit = request.args.get('limit', 10, type=int)
-        suggestions = recommender.search_suggestions(query, limit)
+        suggestions = get_recommender().search_suggestions(query, limit)
         return jsonify(suggestions)
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -96,7 +120,7 @@ def songs_by_mood():
         limit = request.args.get('limit', 10, type=int)
         if not mood:
             return jsonify({'error': 'Se requiere un estado de ánimo'}), 400
-        songs = recommender.get_songs_by_mood(mood, limit)
+        songs = get_recommender().get_songs_by_mood(mood, limit)
         return jsonify(songs)
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -108,7 +132,7 @@ def songs_by_feature():
         limit = request.args.get('limit', 20, type=int)
         if not feature:
             return jsonify({'error': 'Se requiere una característica'}), 400
-        songs = recommender.get_songs_by_feature(feature, limit)
+        songs = get_recommender().get_songs_by_feature(feature, limit)
         return jsonify(songs)
     except Exception as e:
         return jsonify({'error': str(e)}), 500

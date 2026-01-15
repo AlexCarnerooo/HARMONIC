@@ -1,0 +1,4038 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="chat-url" content="CHAT_URL_PLACEHOLDER">
+    <title>Harmonic - Music Therapy Platform - Transform Your Mental Health</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #0a0a0a 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            color: #ffffff;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(29, 185, 84, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(147, 51, 234, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(59, 130, 246, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            height: 70px;
+            display: flex;
+            align-items: center;
+            padding: 0 30px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #1DB954 0%, #1ed760 50%, #00ff88 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-right: 30px;
+            letter-spacing: -0.5px;
+            font-family: 'Poppins', sans-serif;
+            text-shadow: 0 0 30px rgba(29, 185, 84, 0.5);
+        }
+
+        .search-container {
+            flex: 1;
+            max-width: 500px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            color: #ffffff;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            font-weight: 400;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #1DB954;
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 0 3px rgba(29, 185, 84, 0.2), 0 4px 20px rgba(29, 185, 84, 0.1);
+        }
+
+        .search-input::placeholder {
+            color: #B3B3B3;
+        }
+
+        /* Autocompletado */
+        .suggestions-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            margin-top: 12px;
+            background: rgba(20, 20, 20, 0.95);
+            backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 1000;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05);
+            display: none;
+        }
+
+        .suggestions-dropdown.show {
+            display: block;
+        }
+
+        .suggestion-item {
+            padding: 12px 16px;
+            cursor: pointer;
+            border-bottom: 1px solid #404040;
+            transition: background-color 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .suggestion-item:last-child {
+            border-bottom: none;
+        }
+
+        .suggestion-item:hover {
+            background: linear-gradient(90deg, rgba(29, 185, 84, 0.1) 0%, rgba(29, 185, 84, 0.05) 100%);
+            border-left: 3px solid #1DB954;
+            padding-left: 13px;
+        }
+
+        .suggestion-item .suggestion-name {
+            font-weight: 500;
+            color: #ffffff;
+        }
+
+        .suggestion-item .suggestion-artist {
+            font-size: 12px;
+            color: #B3B3B3;
+            margin-left: 10px;
+        }
+
+        /* Canciones populares */
+        .mood-section {
+            margin-top: 30px;
+        }
+
+        .mood-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .mood-category {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 24px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mood-category::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(29, 185, 84, 0.2) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .mood-category:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: rgba(29, 185, 84, 0.6);
+            box-shadow: 0 20px 50px rgba(29, 185, 84, 0.3), 0 0 0 1px rgba(29, 185, 84, 0.3), 0 0 40px rgba(29, 185, 84, 0.2);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .mood-category:hover::before {
+            opacity: 1;
+        }
+
+        .mood-category-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .mood-icon {
+            font-size: 32px;
+        }
+
+        .mood-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        .mood-description {
+            font-size: 14px;
+            color: #B3B3B3;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .mood-songs-preview {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .mood-song-tag {
+            background-color: #404040;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: #ffffff;
+        }
+
+        .news-banner {
+            background: linear-gradient(135deg, #1DB954 0%, #1ed760 50%, #00ff88 100%);
+            padding: 20px 25px;
+            margin-bottom: 30px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 8px 30px rgba(29, 185, 84, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1), 0 0 60px rgba(29, 185, 84, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .news-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .news-banner a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 16px;
+            display: block;
+        }
+
+        .news-banner a:hover {
+            text-decoration: underline;
+        }
+
+        .news-banner .banner-text {
+            font-size: 14px;
+            opacity: 0.95;
+            margin-top: 5px;
+        }
+
+        .popular-songs-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #ffffff;
+        }
+
+        .popular-songs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .popular-song-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 18px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .popular-song-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(29, 185, 84, 0.1) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .popular-song-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(29, 185, 84, 0.4);
+            transform: translateY(-6px) scale(1.03);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(29, 185, 84, 0.2);
+        }
+
+        .popular-song-card:hover::before {
+            opacity: 1;
+        }
+
+        .popular-song-card .song-title {
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding-right: 40px; /* Espacio para el botón del corazón */
+        }
+
+        .popular-song-card .song-artist {
+            font-size: 14px;
+            color: #B3B3B3;
+            padding-right: 40px; /* Espacio para el botón del corazón */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Layout principal */
+        .main-layout {
+            display: flex;
+            height: 100vh;
+            padding-top: 60px;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(20px) saturate(180%);
+            padding: 25px 0;
+            overflow-y: auto;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .sidebar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(29, 185, 84, 0.5), transparent);
+        }
+
+        .nav-item {
+            display: block;
+            padding: 14px 25px;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 15px;
+            position: relative;
+            margin: 4px 12px;
+            border-radius: 12px;
+        }
+
+        .nav-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3px;
+            height: 0;
+            background: linear-gradient(180deg, #1DB954, #1ed760);
+            border-radius: 0 3px 3px 0;
+            transition: height 0.3s ease;
+        }
+
+        .nav-item:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateX(5px);
+        }
+
+        .nav-item.active {
+            color: #ffffff;
+            background: linear-gradient(90deg, rgba(29, 185, 84, 0.2) 0%, rgba(29, 185, 84, 0.1) 100%);
+            box-shadow: 0 4px 20px rgba(29, 185, 84, 0.2);
+        }
+
+        .nav-item.active::before {
+            height: 60%;
+        }
+
+        .nav-item i {
+            margin-right: 10px;
+            width: 20px;
+        }
+
+        /* Área principal */
+        .main-content {
+            flex: 1;
+            background: transparent;
+            overflow-y: auto;
+            padding: 30px;
+            position: relative;
+            height: 100%;
+            z-index: 1;
+        }
+
+        /* Cuando está en la página de chat, quitar padding y overflow */
+        .main-content.chat-active {
+            padding: 0;
+            overflow: hidden;
+            height: 100%;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Chat iframe */
+        #chat {
+            padding: 0;
+            margin: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        #chat iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: #fff;
+            display: block;
+        }
+
+        /* News iframe */
+        #news {
+            padding: 0;
+            margin: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        #news iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: #fff;
+            display: block;
+        }
+
+        /* Migas de pan */
+        .breadcrumbs {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 10px 0;
+            color: #B3B3B3;
+            font-size: 14px;
+        }
+
+        .breadcrumb-link {
+            color: #1DB954;
+            text-decoration: none;
+            transition: color 0.2s;
+            cursor: pointer;
+        }
+
+        .breadcrumb-link:hover {
+            color: #1ed760;
+            text-decoration: underline;
+        }
+
+        .breadcrumb-separator {
+            margin: 0 10px;
+            color: #666;
+        }
+
+        .breadcrumb-current {
+            color: #ffffff;
+            font-weight: 500;
+        }
+
+        .page-title {
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.8) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -1px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Cards de canciones */
+        .songs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .song-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 24px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .song-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .song-card:hover::after {
+            left: 100%;
+        }
+
+        .song-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(29, 185, 84, 0.5);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(29, 185, 84, 0.2), 0 0 40px rgba(29, 185, 84, 0.1);
+        }
+
+        .song-card.selected {
+            background: linear-gradient(135deg, rgba(29, 185, 84, 0.2) 0%, rgba(29, 185, 84, 0.1) 100%);
+            border-color: #1DB954;
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(29, 185, 84, 0.3), 0 0 0 2px rgba(29, 185, 84, 0.5), 0 0 60px rgba(29, 185, 84, 0.2);
+        }
+
+        .song-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #1DB954, #1ed760, #00ff88);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .song-card:hover::before,
+        .song-card.selected::before {
+            opacity: 1;
+        }
+
+        .song-favorite-btn {
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            font-size: 22px;
+            cursor: pointer;
+            padding: 8px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 100;
+            opacity: 0.8;
+            pointer-events: auto;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .song-favorite-btn:hover {
+            opacity: 1;
+            transform: scale(1.15) rotate(10deg);
+            background: rgba(255, 48, 64, 0.2);
+            border-color: rgba(255, 48, 64, 0.5);
+            box-shadow: 0 4px 15px rgba(255, 48, 64, 0.3);
+        }
+
+        .song-favorite-btn.favorited {
+            opacity: 1;
+            color: #ff3040;
+            background: rgba(255, 48, 64, 0.2);
+            border-color: #ff3040;
+            box-shadow: 0 0 20px rgba(255, 48, 64, 0.4);
+        }
+
+        .song-favorite-btn.favorited:hover {
+            transform: scale(1.2) rotate(-10deg);
+            box-shadow: 0 0 30px rgba(255, 48, 64, 0.6);
+        }
+
+        .popular-song-card {
+            position: relative;
+        }
+
+        .popular-favorite-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 6px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 100;
+            opacity: 0.8;
+            pointer-events: auto;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .popular-favorite-btn:hover {
+            opacity: 1;
+            transform: scale(1.15) rotate(10deg);
+            background: rgba(255, 48, 64, 0.2);
+            border-color: rgba(255, 48, 64, 0.5);
+            box-shadow: 0 4px 15px rgba(255, 48, 64, 0.3);
+        }
+
+        .popular-favorite-btn.favorited {
+            opacity: 1;
+            color: #ff3040;
+            background: rgba(255, 48, 64, 0.2);
+            border-color: #ff3040;
+            box-shadow: 0 0 20px rgba(255, 48, 64, 0.4);
+        }
+
+        .song-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .song-image {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #1DB954 0%, #1ed760 50%, #00ff88 100%);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-right: 18px;
+            color: #000000;
+            box-shadow: 0 8px 20px rgba(29, 185, 84, 0.3), 0 0 0 2px rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .song-card:hover .song-image {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 12px 30px rgba(29, 185, 84, 0.4), 0 0 0 2px rgba(255, 255, 255, 0.2);
+        }
+
+        .song-details {
+            flex: 1;
+            padding-right: 50px; /* Espacio para el botón del corazón */
+            min-width: 0; /* Permite que el texto se trunque si es necesario */
+        }
+
+        .song-title {
+            font-size: 19px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            line-height: 1.3;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            color: #ffffff;
+            letter-spacing: -0.3px;
+        }
+
+        .song-artist {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.2px;
+        }
+
+        .song-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 8px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 6px;
+        }
+
+        .stat-value {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1DB954;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: #B3B3B3;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .song-features {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .feature-bar {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .feature-label {
+            font-size: 12px;
+            color: #B3B3B3;
+            width: 80px;
+            text-transform: capitalize;
+        }
+
+        .feature-progress {
+            flex: 1;
+            height: 4px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            margin: 0 10px;
+            overflow: hidden;
+        }
+
+        .feature-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #1DB954, #1ed760);
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+
+        .feature-value {
+            font-size: 12px;
+            color: #ffffff;
+            font-weight: 600;
+            min-width: 40px;
+            text-align: right;
+        }
+
+        /* Botones */
+        .btn {
+            background-color: #1DB954;
+            color: #000000;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px rgba(29, 185, 84, 0.3);
+        }
+
+        .btn:hover {
+            background-color: #1ed760;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(29, 185, 84, 0.4);
+        }
+
+        .btn:disabled {
+            background-color: #404040;
+            color: #B3B3B3;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn-container {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .btn-large {
+            padding: 16px 32px;
+            font-size: 16px;
+        }
+
+        /* Filtros */
+        .filters {
+            background: linear-gradient(135deg, #282828, #404040);
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(29, 185, 84, 0.2);
+        }
+
+        .filters h3 {
+            color: #1DB954;
+            margin-bottom: 20px;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .filters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .filter-group {
+            margin-bottom: 20px;
+        }
+
+        .filter-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #ffffff;
+            font-size: 14px;
+        }
+
+        .filter-input {
+            width: 100%;
+            padding: 10px 12px;
+            background-color: #404040;
+            border: 1px solid #606060;
+            border-radius: 6px;
+            color: #ffffff;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        .filter-input:focus {
+            outline: none;
+            border-color: #1DB954;
+        }
+
+        .filter-range-container {
+            position: relative;
+        }
+
+        .filter-range {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: #404040;
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .filter-range::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #1DB954;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(29, 185, 84, 0.3);
+        }
+
+        .filter-range::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #1DB954;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 6px rgba(29, 185, 84, 0.3);
+        }
+
+        .filter-value {
+            position: absolute;
+            right: 0;
+            top: -25px;
+            background-color: #1DB954;
+            color: #000000;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .filter-btn {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            color: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            letter-spacing: 0.3px;
+        }
+
+        .filter-btn:hover {
+            background: linear-gradient(135deg, rgba(29, 185, 84, 0.2) 0%, rgba(29, 185, 84, 0.1) 100%);
+            color: #ffffff;
+            border-color: rgba(29, 185, 84, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(29, 185, 84, 0.2);
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(135deg, #1DB954 0%, #1ed760 100%);
+            color: #000000;
+            border-color: #1DB954;
+            box-shadow: 0 4px 20px rgba(29, 185, 84, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1);
+        }
+
+        /* Información de la canción base */
+        .base-song-info {
+            background: linear-gradient(135deg, #1DB954, #1ed760);
+            color: #000000;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .base-song-image {
+            width: 80px;
+            height: 80px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+        }
+
+        .base-song-details h3 {
+            margin: 0 0 5px 0;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .base-song-details p {
+            margin: 0;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        /* Historial */
+        .history-item {
+            padding: 10px;
+            border-bottom: 1px solid #404040;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .history-item:hover {
+            background-color: #404040;
+        }
+
+        .history-item:last-child {
+            border-bottom: none;
+        }
+
+        /* Página de Explorar */
+        .explore-sections {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .explore-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .explore-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(29, 185, 84, 0.2) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .explore-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 20px 50px rgba(29, 185, 84, 0.3), 0 0 0 1px rgba(29, 185, 84, 0.3), 0 0 40px rgba(29, 185, 84, 0.2);
+            border-color: rgba(29, 185, 84, 0.6);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .explore-card:hover::before {
+            opacity: 1;
+        }
+
+        .explore-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .explore-card h3 {
+            color: #1DB954;
+            font-size: 20px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .explore-card p {
+            color: #B3B3B3;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        /* Búsqueda avanzada */
+        .advanced-search {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .advanced-search h2 {
+            color: #1DB954;
+            margin-bottom: 20px;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .search-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 14px;
+            letter-spacing: 0.3px;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: #ffffff;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            font-weight: 400;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #1DB954;
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 0 3px rgba(29, 185, 84, 0.2), 0 4px 20px rgba(29, 185, 84, 0.1);
+        }
+
+        .range-inputs {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .range-inputs input {
+            flex: 1;
+        }
+
+        .range-inputs span {
+            color: #B3B3B3;
+            font-weight: 600;
+        }
+
+        /* Características musicales */
+        .music-features {
+            margin-bottom: 40px;
+        }
+
+        .music-features h2 {
+            color: #1DB954;
+            margin-bottom: 20px;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(29, 185, 84, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .feature-card:hover::after {
+            left: 100%;
+        }
+
+        .feature-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(29, 185, 84, 0.5);
+            transform: translateY(-6px) scale(1.05);
+            box-shadow: 0 12px 40px rgba(29, 185, 84, 0.3), 0 0 0 1px rgba(29, 185, 84, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .feature-card h4 {
+            color: #ffffff;
+            font-size: 16px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .feature-card p {
+            color: #B3B3B3;
+            font-size: 12px;
+            line-height: 1.3;
+        }
+
+        /* Resultados de exploración */
+        .explore-results {
+            margin-top: 30px;
+        }
+
+        .explore-results h2 {
+            color: #1DB954;
+            margin-bottom: 20px;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        /* Página de Biblioteca */
+        .library-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #404040;
+            padding-bottom: 10px;
+        }
+
+        .tab-btn {
+            background: transparent;
+            color: rgba(255, 255, 255, 0.6);
+            border: none;
+            padding: 14px 24px;
+            border-radius: 12px 12px 0 0;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            letter-spacing: 0.3px;
+        }
+
+        .tab-btn::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #1DB954, #1ed760);
+            border-radius: 3px 3px 0 0;
+            transition: width 0.3s ease;
+        }
+
+        .tab-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, rgba(29, 185, 84, 0.2) 0%, rgba(29, 185, 84, 0.1) 100%);
+            color: #ffffff;
+        }
+
+        .tab-btn.active::before {
+            width: 80%;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-header h2 {
+            color: #1DB954;
+            font-size: 18px;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .btn-small {
+            background-color: #404040;
+            color: #ffffff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-small:hover {
+            background-color: #ff4444;
+        }
+
+        .count-badge {
+            background-color: #1DB954;
+            color: #000000;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        /* Historial */
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .history-item {
+            background-color: #282828;
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .history-item:hover {
+            background-color: #404040;
+        }
+
+        .history-item .search-term {
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .history-item .search-time {
+            color: #B3B3B3;
+            font-size: 12px;
+        }
+
+        /* Favoritos y Guardados */
+        .favorites-list,
+        .saved-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .favorite-item,
+        .saved-item {
+            background-color: #282828;
+            padding: 20px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .favorite-item:hover,
+        .saved-item:hover {
+            background-color: #404040;
+        }
+
+        .item-image {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #1DB954, #1ed760);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: #000000;
+        }
+
+        .item-details {
+            flex: 1;
+        }
+
+        .item-title {
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 4px;
+        }
+
+        .item-artist {
+            color: #B3B3B3;
+            font-size: 14px;
+        }
+
+        .item-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-btn {
+            background-color: transparent;
+            border: 1px solid #606060;
+            color: #B3B3B3;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:hover {
+            border-color: #1DB954;
+            color: #1DB954;
+        }
+
+        .action-btn.remove {
+            border-color: #ff4444;
+            color: #ff4444;
+        }
+
+        .action-btn.remove:hover {
+            background-color: #ff4444;
+            color: #ffffff;
+        }
+
+        /* Estados vacíos */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #B3B3B3;
+        }
+
+        .empty-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .empty-state h3 {
+            color: #ffffff;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .empty-state p {
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        /* Estadísticas */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #282828, #404040);
+            padding: 20px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border: 1px solid rgba(29, 185, 84, 0.2);
+        }
+
+        .stat-icon {
+            font-size: 32px;
+        }
+
+        .stat-info {
+            flex: 1;
+        }
+
+        .stat-number {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1DB954;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #B3B3B3;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .charts-section {
+            background-color: #282828;
+            padding: 25px;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+
+        .charts-section h3 {
+            color: #1DB954;
+            margin-bottom: 20px;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .chart-container {
+            background-color: #404040;
+            border-radius: 8px;
+            padding: 25px;
+        }
+
+        .search-chart h4 {
+            color: #ffffff;
+            margin-bottom: 20px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .chart-bars {
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            height: 200px;
+            gap: 8px;
+            margin-bottom: 20px;
+            padding: 0 10px;
+        }
+
+        .chart-bar {
+            flex: 1;
+            background: linear-gradient(to top, #1DB954, #1ed760);
+            border-radius: 4px 4px 0 0;
+            min-height: 4px;
+            position: relative;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .chart-bar:hover {
+            background: linear-gradient(to top, #1ed760, #2ee76a);
+            transform: scaleY(1.05);
+        }
+
+        .chart-bar-label {
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 11px;
+            color: #B3B3B3;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .chart-bar-value {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 12px;
+            color: #1DB954;
+            font-weight: 700;
+            background-color: #282828;
+            padding: 2px 6px;
+            border-radius: 4px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .chart-bar:hover .chart-bar-value {
+            opacity: 1;
+        }
+
+        .chart-legend {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #B3B3B3;
+            font-size: 12px;
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+        }
+
+        .chart-empty {
+            text-align: center;
+            color: #B3B3B3;
+            padding: 40px 20px;
+        }
+
+        .chart-empty-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        /* Animaciones y efectos JavaScript */
+        .fade-in {
+            animation: fadeIn 0.6s ease-in-out;
+        }
+
+        .slide-up {
+            animation: slideUp 0.8s ease-out;
+        }
+
+        .bounce-in {
+            animation: bounceIn 1s ease-out;
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #404040;
+            border-top: 4px solid #1DB954;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background-color: #1DB954;
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: float 6s infinite linear;
+        }
+
+        .typing-effect {
+            overflow: hidden;
+            border-right: 2px solid #1DB954;
+            white-space: nowrap;
+            animation: typing 3s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+
+        .glow-effect {
+            box-shadow: 0 0 20px rgba(29, 185, 84, 0.5);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        .shake {
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes bounceIn {
+            0% { opacity: 0; transform: scale(0.3); }
+            50% { opacity: 1; transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: #1DB954; }
+        }
+
+        @keyframes glow {
+            from { box-shadow: 0 0 20px rgba(29, 185, 84, 0.5); }
+            to { box-shadow: 0 0 30px rgba(29, 185, 84, 0.8); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        /* Efectos de hover mejorados */
+        .song-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .song-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(29, 185, 84, 0.3);
+        }
+
+        .song-card.selected {
+            border: 2px solid #1DB954;
+            box-shadow: 0 0 20px rgba(29, 185, 84, 0.5);
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: #B3B3B3;
+        }
+
+        .no-results-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 200px;
+            }
+            
+            .main-content {
+                padding: 10px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .explore-sections {
+                grid-template-columns: 1fr;
+            }
+
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="logo">Harmonic</div>
+    <div class="search-container">
+            <input type="text" class="search-input" id="searchInput" placeholder="Search for therapeutic music or artists...">
+            <div class="suggestions-dropdown" id="suggestionsDropdown"></div>
+        </div>
+    </div>
+
+    <!-- Layout principal -->
+    <div class="main-layout">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <a href="#" class="nav-item active" data-page="chat">
+                <i>💬</i> Chat
+            </a>
+            <a href="#" class="nav-item" data-page="home">
+                <i>🏠</i> Inicio
+            </a>
+            <a href="#" class="nav-item" data-page="recommendations">
+                <i>🎵</i> Recomendaciones
+            </a>
+            <a href="#" class="nav-item" data-page="explore">
+                <i>🔍</i> Explorar
+            </a>
+            <a href="#" class="nav-item" data-page="library">
+                <i>📚</i> Tu Biblioteca
+            </a>
+            <a href="#" class="nav-item" data-page="news">
+                <i>📰</i> Noticias
+            </a>
+        </div>
+
+        <!-- Área principal -->
+        <div class="main-content">
+            <!-- Página de Chat -->
+            <div id="chat" class="page active">
+                <iframe 
+                    src=""
+                    style="width: 100%; height: calc(100vh - 80px); border: none; background: #fff;"
+                    title="Harmonic Chat"
+                    id="chatFrame">
+                </iframe>
+            </div>
+            
+            <!-- Página de Noticias -->
+            <div id="news" class="page">
+                <iframe 
+                    src="/newspaper-2035" 
+                    style="width: 100%; height: 100%; border: none; background: #fff;"
+                    title="Harmonic News"
+                    id="newsFrame">
+                </iframe>
+            </div>
+            
+            <!-- Página de Inicio -->
+            <div id="home" class="page">
+                <div class="news-banner">
+                    <a href="newspaper-2035.html" target="_blank">
+                        🎉 BREAKING: Harmonic Reaches 2.5 Billion Users - Read the Full Story →
+                    </a>
+                    <div class="banner-text">The revolutionary music therapy platform transforming mental health worldwide</div>
+                </div>
+                <h1 class="page-title">Transform Your Mental Health Through Personalized Music Therapy</h1>
+                <div class="mood-section">
+                    <h2 class="popular-songs-title">🎵 Select Your Emotional State</h2>
+                    <p style="color: #B3B3B3; margin-bottom: 20px; font-size: 16px;">Choose how you're feeling and discover music tailored to your emotional needs</p>
+                    <div class="mood-categories" id="moodCategories">
+                        <div class="mood-category" data-mood="sad" onclick="loadMoodSongs('sad')">
+                            <div class="mood-category-header">
+                                <div class="mood-icon">😢</div>
+                                <div class="mood-title">Feeling Sad</div>
+                            </div>
+                            <div class="mood-description">Gentle, comforting melodies to help process emotions and find solace</div>
+                            <div class="mood-songs-preview">
+                                <span class="mood-song-tag">Calming</span>
+                                <span class="mood-song-tag">Emotional</span>
+                                <span class="mood-song-tag">Healing</span>
+                            </div>
+                        </div>
+                        <div class="mood-category" data-mood="happy" onclick="loadMoodSongs('happy')">
+                            <div class="mood-category-header">
+                                <div class="mood-icon">😊</div>
+                                <div class="mood-title">Feeling Happy</div>
+                            </div>
+                            <div class="mood-description">Upbeat, energetic tracks to amplify your positive mood</div>
+                            <div class="mood-songs-preview">
+                                <span class="mood-song-tag">Energetic</span>
+                                <span class="mood-song-tag">Upbeat</span>
+                                <span class="mood-song-tag">Joyful</span>
+                            </div>
+                        </div>
+                        <div class="mood-category" data-mood="anxious" onclick="loadMoodSongs('anxious')">
+                            <div class="mood-category-header">
+                                <div class="mood-icon">😰</div>
+                                <div class="mood-title">Feeling Anxious</div>
+                            </div>
+                            <div class="mood-description">Soothing, peaceful music to calm your mind and reduce stress</div>
+                            <div class="mood-songs-preview">
+                                <span class="mood-song-tag">Relaxing</span>
+                                <span class="mood-song-tag">Peaceful</span>
+                                <span class="mood-song-tag">Calming</span>
+                            </div>
+                        </div>
+                        <div class="mood-category" data-mood="focused" onclick="loadMoodSongs('focused')">
+                            <div class="mood-category-header">
+                                <div class="mood-icon">🧠</div>
+                                <div class="mood-title">Need Focus</div>
+                            </div>
+                            <div class="mood-description">Instrumental and ambient sounds to enhance concentration</div>
+                            <div class="mood-songs-preview">
+                                <span class="mood-song-tag">Instrumental</span>
+                                <span class="mood-song-tag">Ambient</span>
+                                <span class="mood-song-tag">Concentrated</span>
+                            </div>
+                        </div>
+                        <div class="mood-category" data-mood="energetic" onclick="loadMoodSongs('energetic')">
+                            <div class="mood-category-header">
+                                <div class="mood-icon">⚡</div>
+                                <div class="mood-title">Need Energy</div>
+                            </div>
+                            <div class="mood-description">High-tempo, dynamic tracks to boost your motivation</div>
+                            <div class="mood-songs-preview">
+                                <span class="mood-song-tag">Dynamic</span>
+                                <span class="mood-song-tag">Fast</span>
+                                <span class="mood-song-tag">Motivating</span>
+                            </div>
+                        </div>
+                        <div class="mood-category" data-mood="relaxed" onclick="loadMoodSongs('relaxed')">
+                            <div class="mood-category-header">
+                                <div class="mood-icon">😌</div>
+                                <div class="mood-title">Feeling Relaxed</div>
+                            </div>
+                            <div class="mood-description">Smooth, mellow tunes to maintain your peaceful state</div>
+                            <div class="mood-songs-preview">
+                                <span class="mood-song-tag">Mellow</span>
+                                <span class="mood-song-tag">Smooth</span>
+                                <span class="mood-song-tag">Chill</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Migas de pan -->
+                <div class="breadcrumbs" id="breadcrumbs" style="display: none;">
+                    <a href="#" onclick="goBackToMoods(); return false;" class="breadcrumb-link">Inicio</a>
+                    <span class="breadcrumb-separator">›</span>
+                    <span class="breadcrumb-current" id="breadcrumbCurrent"></span>
+                </div>
+                
+                <div class="popular-songs-section" id="popularSongsSection" style="display: none;">
+                    <h2 class="popular-songs-title" id="moodSongsTitle">🎵 Songs for Your Mood</h2>
+                    <div class="songs-grid" id="moodSongsGrid"></div>
+                </div>
+                <div id="searchResults"></div>
+                <div class="btn-container">
+                    <button id="recommendBtn" class="btn btn-large" style="display: none;">🎵 Ver Recomendaciones</button>
+                </div>
+            </div>
+
+            <!-- Página de Recomendaciones -->
+            <div id="recommendations" class="page">
+                <h1 class="page-title">Personalized Music Therapy Recommendations</h1>
+                
+                <!-- Información de la canción base -->
+                <div id="baseSongInfo" class="base-song-info" style="display: none;">
+                    <div class="base-song-image">🎵</div>
+                    <div class="base-song-details">
+                        <h3 id="baseSongTitle">Canción seleccionada</h3>
+                        <p id="baseSongArtist">Artista</p>
+                    </div>
+                </div>
+
+                <!-- Filtros -->
+                <div class="filters">
+                    <h3>🔍 Filtros de Recomendaciones</h3>
+                    <div class="filters-grid">
+                        <div class="filter-group">
+                            <label class="filter-label">Año desde</label>
+                            <input type="number" class="filter-input" id="yearFrom" placeholder="1900" min="1900" max="2024">
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-label">Año hasta</label>
+                            <input type="number" class="filter-input" id="yearTo" placeholder="2024" min="1900" max="2024">
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-label">Popularidad mínima</label>
+                            <div class="filter-range-container">
+                                <input type="range" class="filter-range" id="popularityRange" min="0" max="100" value="0">
+                                <span class="filter-value" id="popularityValue">0%</span>
+                            </div>
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-label">Tempo mínimo (BPM)</label>
+                            <div class="filter-range-container">
+                                <input type="range" class="filter-range" id="tempoRange" min="60" max="200" value="60">
+                                <span class="filter-value" id="tempoValue">60 BPM</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" data-filter="all">Todas</button>
+                        <button class="filter-btn" data-filter="danceable">Bailables</button>
+                        <button class="filter-btn" data-filter="acoustic">Acústicas</button>
+                        <button class="filter-btn" data-filter="popular">Populares</button>
+                        <button class="filter-btn" data-filter="recent">Recientes</button>
+                    </div>
+                    
+                    <div class="btn-container" style="margin-top: 20px;">
+                        <button class="btn" id="applyFiltersBtn">🔍 Aplicar Filtros</button>
+                        <button class="btn" id="resetFiltersBtn" style="background-color: #404040; margin-left: 10px;">🔄 Limpiar</button>
+                    </div>
+                </div>
+
+                <div id="recommendationsResults"></div>
+            </div>
+
+            <!-- Página de Explorar -->
+            <div id="explore" class="page">
+                <h1 class="page-title">Explorar Música</h1>
+                
+                <!-- Sección de exploración rápida -->
+                <div class="explore-sections">
+                    <div class="explore-card" onclick="exploreByFeature('popular')">
+                        <div class="explore-icon">🔥</div>
+                        <h3>Más Populares</h3>
+                        <p>Descubre las canciones más populares</p>
+                    </div>
+                    
+                    <div class="explore-card" onclick="exploreByFeature('recent')">
+                        <div class="explore-icon">🆕</div>
+                        <h3>Recientes</h3>
+                        <p>Canciones de los últimos años</p>
+                    </div>
+                    
+                    <div class="explore-card" onclick="exploreByFeature('danceable')">
+                        <div class="explore-icon">💃</div>
+                        <h3>Para Bailar</h3>
+                        <p>Música con alta bailabilidad</p>
+                    </div>
+                    
+                    <div class="explore-card" onclick="exploreByFeature('acoustic')">
+                        <div class="explore-icon">🎸</div>
+                        <h3>Acústicas</h3>
+                        <p>Música acústica y relajante</p>
+                    </div>
+                </div>
+
+                <!-- Búsqueda avanzada -->
+                <div class="advanced-search">
+                    <h2>🔍 Búsqueda Avanzada</h2>
+                    <div class="search-form">
+                        <div class="form-row">
+        <div class="form-group">
+                                <label>Artista</label>
+                                <input type="text" id="artistSearch" placeholder="Nombre del artista">
+                            </div>
+                            <div class="form-group">
+                                <label>Década</label>
+                                <select id="decadeSearch">
+                                    <option value="">Cualquier década</option>
+                                    <option value="1950">1950s</option>
+                                    <option value="1960">1960s</option>
+                                    <option value="1970">1970s</option>
+                                    <option value="1980">1980s</option>
+                                    <option value="1990">1990s</option>
+                                    <option value="2000">2000s</option>
+                                    <option value="2010">2010s</option>
+                                    <option value="2020">2020s</option>
+                                </select>
+        </div>
+    </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Rango de Tempo (BPM)</label>
+                                <div class="range-inputs">
+                                    <input type="number" id="tempoMin" placeholder="Min" min="60" max="200">
+                                    <span>a</span>
+                                    <input type="number" id="tempoMax" placeholder="Max" min="60" max="200">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Popularidad mínima</label>
+                                <input type="range" id="popularitySearch" min="0" max="100" value="0">
+                                <span id="popularitySearchValue">0%</span>
+                            </div>
+    </div>
+
+                        <button class="btn" onclick="performAdvancedSearch()">🔍 Buscar</button>
+                    </div>
+                </div>
+
+                <!-- Características musicales -->
+                <div class="music-features">
+                    <h2>🎵 Características Musicales</h2>
+                    <div class="features-grid">
+                        <div class="feature-card" onclick="exploreByFeature('high-energy')">
+                            <div class="feature-icon">⚡</div>
+                            <h4>Alta Energía</h4>
+                            <p>Música energética y dinámica</p>
+                        </div>
+                        
+                        <div class="feature-card" onclick="exploreByFeature('instrumental')">
+                            <div class="feature-icon">🎼</div>
+                            <h4>Instrumentales</h4>
+                            <p>Música sin voces</p>
+                        </div>
+                        
+                        <div class="feature-card" onclick="exploreByFeature('live')">
+                            <div class="feature-icon">🎤</div>
+                            <h4>En Vivo</h4>
+                            <p>Grabaciones en vivo</p>
+                        </div>
+                        
+                        <div class="feature-card" onclick="exploreByFeature('speech')">
+                            <div class="feature-icon">🗣️</div>
+                            <h4>Con Habla</h4>
+                            <p>Música con elementos hablados</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resultados de exploración -->
+                <div id="exploreResults" class="explore-results" style="display: none;">
+                    <h2 id="exploreResultsTitle">Resultados</h2>
+                    <div id="exploreResultsContent"></div>
+                </div>
+            </div>
+
+            <!-- Página de Biblioteca -->
+            <div id="library" class="page">
+                <h1 class="page-title">Tu Biblioteca</h1>
+                
+                <!-- Pestañas de la biblioteca -->
+                <div class="library-tabs">
+                    <button class="tab-btn active" data-tab="history">📚 Historial</button>
+                    <button class="tab-btn" data-tab="favorites">❤️ Favoritos</button>
+                    <button class="tab-btn" data-tab="saved">💾 Guardados</button>
+                    <button class="tab-btn" data-tab="stats">📊 Estadísticas</button>
+                </div>
+
+                <!-- Pestaña de Historial -->
+                <div id="history-tab" class="tab-content active">
+                    <div class="section-header">
+                        <h2>🔍 Búsquedas Recientes</h2>
+                        <button class="btn-small" onclick="clearSearchHistory()">🗑️ Limpiar</button>
+                    </div>
+                    <div id="searchHistory" class="history-list"></div>
+                </div>
+
+                <!-- Pestaña de Favoritos -->
+                <div id="favorites-tab" class="tab-content">
+                    <div class="section-header">
+                        <h2>❤️ Canciones Favoritas</h2>
+                        <span id="favoritesCount" class="count-badge">0</span>
+                    </div>
+                    <div id="favoritesList" class="favorites-list">
+                        <div class="empty-state">
+                            <div class="empty-icon">❤️</div>
+                            <h3>No tienes favoritos aún</h3>
+                            <p>Marca canciones como favoritas para verlas aquí</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pestaña de Guardados -->
+                <div id="saved-tab" class="tab-content">
+                    <div class="section-header">
+                        <h2>💾 Recomendaciones Guardadas</h2>
+                        <span id="savedCount" class="count-badge">0</span>
+                    </div>
+                    <div id="savedRecommendations" class="saved-list">
+                        <div class="empty-state">
+                            <div class="empty-icon">💾</div>
+                            <h3>No tienes recomendaciones guardadas</h3>
+                            <p>Guarda recomendaciones para acceder a ellas más tarde</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pestaña de Estadísticas -->
+                <div id="stats-tab" class="tab-content">
+                    <div class="section-header">
+                        <h2>📊 Tus Estadísticas</h2>
+                    </div>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">🔍</div>
+                            <div class="stat-info">
+                                <div class="stat-number" id="totalSearches">0</div>
+                                <div class="stat-label">Búsquedas realizadas</div>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon">🎵</div>
+                            <div class="stat-info">
+                                <div class="stat-number" id="totalRecommendations">0</div>
+                                <div class="stat-label">Recomendaciones obtenidas</div>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon">❤️</div>
+                            <div class="stat-info">
+                                <div class="stat-number" id="totalFavorites">0</div>
+                                <div class="stat-label">Canciones favoritas</div>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon">⭐</div>
+                            <div class="stat-info">
+                                <div class="stat-number" id="avgSimilarity">0%</div>
+                                <div class="stat-label">Similitud promedio</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="charts-section">
+                        <h3>🎨 Gráficos de Uso</h3>
+                        <div class="chart-container">
+                            <div id="searchChart" class="search-chart">
+                                <h4>Búsquedas por Día (Últimos 7 días)</h4>
+                                <div id="chartBars" class="chart-bars"></div>
+                                <div class="chart-legend">
+                                    <span class="legend-item">
+                                        <div class="legend-color" style="background: #1DB954;"></div>
+                                        Búsquedas realizadas
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Variables globales
+        let currentSongIndex = null;
+        let searchHistory = JSON.parse(localStorage.getItem('searchHistory') || '[]');
+        let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+        let savedRecommendations = JSON.parse(localStorage.getItem('savedRecommendations') || '[]');
+        let userStats = JSON.parse(localStorage.getItem('userStats') || '{"searches": 0, "recommendations": 0, "favorites": 0, "avgSimilarity": 0}');
+        
+        // Variables para efectos visuales
+        let particles = [];
+        let isAnimating = false;
+
+        // Escuchar mensajes del chat para guardar recomendaciones automáticamente
+        window.addEventListener('message', function(event) {
+            // Verificar que el mensaje viene del chat
+            if (event.data && event.data.type === 'CHAT_RECOMMENDATIONS' && event.data.songs) {
+                const songs = event.data.songs;
+                
+                // Crear objeto de recomendación guardada
+                const baseSong = {
+                    name: 'Recomendaciones del Chat',
+                    artists: `HARMONIC GPT - ${songs.length} canciones`
+                };
+                
+                // Guardar las recomendaciones
+                saveRecommendations(baseSong, songs);
+                
+                // Mostrar notificación
+                showNotification(`✨ Se guardaron ${songs.length} canciones recomendadas por el chat en tu biblioteca`);
+                
+                // Actualizar la biblioteca si está visible
+                if (document.getElementById('library').classList.contains('active')) {
+                    updateSavedRecommendations();
+                }
+            }
+        });
+
+        // Función para mostrar notificaciones
+        function showNotification(message) {
+            // Crear elemento de notificación
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 80px;
+                right: 20px;
+                background: linear-gradient(135deg, #1DB954 0%, #1ed760 100%);
+                color: #000;
+                padding: 16px 24px;
+                border-radius: 12px;
+                box-shadow: 0 8px 30px rgba(29, 185, 84, 0.4);
+                z-index: 10000;
+                font-weight: 600;
+                font-size: 14px;
+                animation: slideIn 0.3s ease;
+                max-width: 350px;
+            `;
+            notification.textContent = message;
+            
+            // Agregar animación
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideIn {
+                    from {
+                        transform: translateX(400px);
+                        opacity: 0;
+                    }
+                    to {
+                        transform: translateX(0);
+                        opacity: 1;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            document.body.appendChild(notification);
+            
+            // Remover después de 4 segundos
+            setTimeout(() => {
+                notification.style.animation = 'slideIn 0.3s ease reverse';
+                setTimeout(() => {
+                    notification.remove();
+                    style.remove();
+                }, 300);
+            }, 4000);
+        }
+
+        // Efectos visuales avanzados
+        function initVisualEffects() {
+            createParticles();
+            addTypingEffect();
+            addScrollAnimations();
+            addButtonEffects();
+        }
+
+        function createParticles() {
+            const particleContainer = document.createElement('div');
+            particleContainer.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+                z-index: 1;
+            `;
+            document.body.appendChild(particleContainer);
+
+            setInterval(() => {
+                if (particles.length < 20) {
+                    createParticle(particleContainer);
+                }
+            }, 300);
+        }
+
+        function createParticle(container) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.cssText = `
+                left: ${Math.random() * 100}%;
+                animation-delay: ${Math.random() * 2}s;
+                animation-duration: ${4 + Math.random() * 4}s;
+            `;
+            container.appendChild(particle);
+            
+            particles.push(particle);
+            
+            setTimeout(() => {
+                if (particle.parentNode) {
+                    particle.parentNode.removeChild(particle);
+                }
+                particles = particles.filter(p => p !== particle);
+            }, 8000);
+        }
+
+        function addTypingEffect() {
+            const title = document.querySelector('.page-title');
+            if (title && title.textContent.includes('Descubre')) {
+                const text = title.textContent;
+                title.textContent = '';
+                title.classList.add('typing-effect');
+                
+                let i = 0;
+                const typeWriter = () => {
+                    if (i < text.length) {
+                        title.textContent += text.charAt(i);
+                        i++;
+                        setTimeout(typeWriter, 100);
+                    } else {
+                        setTimeout(() => {
+                            title.classList.remove('typing-effect');
+                        }, 2000);
+                    }
+                };
+                setTimeout(typeWriter, 1000);
+            }
+        }
+
+        function addScrollAnimations() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('fade-in');
+                    }
+                });
+            });
+
+            document.querySelectorAll('.song-card, .explore-card, .feature-card').forEach(el => {
+                observer.observe(el);
+            });
+        }
+
+        function addButtonEffects() {
+            document.querySelectorAll('.btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    // Efecto de ondas
+                    const ripple = document.createElement('span');
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+                    
+                    ripple.style.cssText = `
+                        position: absolute;
+                        width: ${size}px;
+                        height: ${size}px;
+                        left: ${x}px;
+                        top: ${y}px;
+                        background: rgba(255, 255, 255, 0.3);
+                        border-radius: 50%;
+                        transform: scale(0);
+                        animation: ripple 0.6s linear;
+                        pointer-events: none;
+                    `;
+                    
+                    this.appendChild(ripple);
+                    setTimeout(() => ripple.remove(), 600);
+                });
+            });
+        }
+
+        function showLoadingSpinner(container) {
+            const spinner = document.createElement('div');
+            spinner.className = 'loading-spinner';
+            spinner.id = 'loadingSpinner';
+            container.appendChild(spinner);
+        }
+
+        function hideLoadingSpinner() {
+            const spinner = document.getElementById('loadingSpinner');
+            if (spinner) {
+                spinner.remove();
+            }
+        }
+
+        function addGlowEffect(element) {
+            element.classList.add('glow-effect');
+            setTimeout(() => {
+                element.classList.remove('glow-effect');
+            }, 2000);
+        }
+
+        function shakeElement(element) {
+            element.classList.add('shake');
+            setTimeout(() => {
+                element.classList.remove('shake');
+            }, 500);
+        }
+
+        function animateCounter(element, target, duration = 2000) {
+            let start = 0;
+            const increment = target / (duration / 16);
+            
+            const timer = setInterval(() => {
+                start += increment;
+                element.textContent = Math.floor(start);
+                
+                if (start >= target) {
+                    element.textContent = target;
+                    clearInterval(timer);
+                }
+            }, 16);
+        }
+
+        function addPulseEffect(element) {
+            if (!element) return; // Evitar error si el elemento no existe
+            element.classList.add('pulse');
+            setTimeout(() => {
+                if (element) {
+                    element.classList.remove('pulse');
+                }
+            }, 2000);
+        }
+
+        // CSS para efectos adicionales
+        const additionalCSS = `
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+        `;
+        
+        const style = document.createElement('style');
+        style.textContent = additionalCSS;
+        document.head.appendChild(style);
+
+        // Configuración de URLs (detecta automáticamente el entorno)
+        // En producción, el backend Flask sirve el HTML, así que usamos el mismo dominio
+        const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+            ? 'http://127.0.0.1:5000' 
+            : window.location.origin; // En producción, usar el mismo dominio (Flask sirve el HTML)
+        
+        // Para el chat, necesitamos la URL del servicio Next.js
+        // En desarrollo: localhost:3000
+        // En producción: usar variable de entorno o detectar automáticamente
+        let CHAT_URL;
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+            CHAT_URL = 'http://localhost:3000';
+        } else {
+            // En producción, intentar obtener de meta tag o usar una URL por defecto
+            const chatMeta = document.querySelector('meta[name="chat-url"]');
+            CHAT_URL = chatMeta ? chatMeta.getAttribute('content') : window.location.origin.replace(/:\d+$/, '') + ':3000';
+        }
+
+        // Actualizar el iframe del chat con la URL correcta
+        const chatFrame = document.getElementById('chatFrame');
+        if (chatFrame) {
+            chatFrame.src = CHAT_URL;
+        }
+
+        // Navegación
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                const page = item.dataset.page;
+                showPage(page);
+                
+                // Actualizar navegación activa
+                document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+                item.classList.add('active');
+            });
+        });
+
+        function showPage(pageId) {
+            // Efecto de transición
+            const currentPage = document.querySelector('.page.active');
+            if (currentPage) {
+                currentPage.style.opacity = '0';
+                currentPage.style.transform = 'translateX(-20px)';
+            }
+            
+            setTimeout(() => {
+                // Ocultar todas las páginas
+                document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+                
+                // Mostrar la página seleccionada con animación
+                const newPage = document.getElementById(pageId);
+                newPage.classList.add('active');
+                newPage.style.opacity = '0';
+                newPage.style.transform = 'translateX(20px)';
+
+                // Ajustar scroll del contenedor principal según la página
+                const mainContent = document.querySelector('.main-content');
+                if (mainContent) {
+                    if (pageId === 'chat' || pageId === 'news') {
+                        // En la página de chat y noticias queremos que el iframe ocupe todo y que no haya scroll externo
+                        mainContent.classList.add('chat-active');
+                        mainContent.style.overflowY = 'hidden';
+                        mainContent.style.padding = '0';
+                    } else {
+                        // En el resto de páginas mantenemos el scroll normal
+                        mainContent.classList.remove('chat-active');
+                        mainContent.style.overflowY = 'auto';
+                        mainContent.style.padding = '20px';
+                    }
+                }
+
+                setTimeout(() => {
+                    newPage.style.transition = 'all 0.3s ease-out';
+                    newPage.style.opacity = '1';
+                    newPage.style.transform = 'translateX(0)';
+                }, 50);
+                
+                // Cargar contenido específico de la página
+                if (pageId === 'library') {
+                    initializeLibrary();
+                }
+            }, 200);
+        }
+
+        // Cargar canciones por estado de ánimo
+        // Mapeo de estados de ánimo a nombres en español para la API
+        const moodMapping = {
+            'sad': 'triste',
+            'happy': 'feliz',
+            'anxious': 'ansiedad',
+            'focused': 'energético',
+            'energetic': 'energético',
+            'relaxed': 'tranquilo'
+        };
+
+        // Mapeo de estados de ánimo a nombres para mostrar
+        const moodDisplayNames = {
+            'sad': 'Feeling Sad',
+            'happy': 'Feeling Happy',
+            'anxious': 'Feeling Anxious',
+            'focused': 'Need Focus',
+            'energetic': 'Need Energy',
+            'relaxed': 'Feeling Relaxed'
+        };
+
+        async function loadMoodSongs(mood) {
+            try {
+                // Ocultar categorías de estados de ánimo
+                document.getElementById('moodCategories').style.display = 'none';
+                
+                // Mostrar migas de pan
+                const breadcrumbs = document.getElementById('breadcrumbs');
+                breadcrumbs.style.display = 'flex';
+                document.getElementById('breadcrumbCurrent').textContent = moodDisplayNames[mood] || mood;
+                
+                // Mostrar sección de canciones
+                const section = document.getElementById('popularSongsSection');
+                section.style.display = 'block';
+                
+                // Actualizar título según el estado de ánimo
+                const titles = {
+                    'sad': 'You\'re Feeling Sad',
+                    'happy': 'You\'re Feeling Happy',
+                    'anxious': 'You\'re Feeling Anxious',
+                    'focused': 'You Need Focus',
+                    'energetic': 'You Need Energy',
+                    'relaxed': 'You\'re Feeling Relaxed'
+                };
+                document.getElementById('moodSongsTitle').textContent = titles[mood] || '🎵 Songs for Your Mood';
+                
+                // Cargar canciones filtradas por estado de ánimo
+                const moodQuery = moodMapping[mood] || mood;
+                const response = await fetch(`${API_BASE_URL}/api/songs-by-mood?mood=${encodeURIComponent(moodQuery)}&limit=20`);
+                if (response.ok) {
+                    const songs = await response.json();
+                    displayMoodSongs(songs);
+                } else {
+                    // Fallback a canciones populares si falla
+                    const fallbackResponse = await fetch(`${API_BASE_URL}/api/popular-songs?limit=20`);
+                    if (fallbackResponse.ok) {
+                        const songs = await fallbackResponse.json();
+                        displayMoodSongs(songs);
+                    }
+                }
+            } catch (error) {
+                console.error('Error al cargar canciones por estado de ánimo:', error);
+            }
+        }
+
+        function displayMoodSongs(songs) {
+            const grid = document.getElementById('moodSongsGrid');
+            
+            // Guardar lista actual para acceso en toggleFavorite
+            currentPopularSongsList = songs || [];
+            
+            if (!grid || songs.length === 0) {
+                grid.innerHTML = '<div style="text-align: center; padding: 40px; color: #B3B3B3;"><h3>No se encontraron canciones</h3></div>';
+                return;
+            }
+
+            grid.innerHTML = songs.map((song, idx) => {
+                const isFav = isFavorite(song.index);
+                return `
+                <div class="song-card slide-up" style="animation-delay: ${idx * 0.1}s" onclick="selectSong(${song.index}, this)">
+                    <button class="song-favorite-btn ${isFav ? 'favorited' : ''}" 
+                            data-song-index="${song.index}"
+                            onclick="event.stopPropagation(); toggleFavorite(${song.index}, event); return false;"
+                            title="${isFav ? 'Quitar de favoritos' : 'Añadir a favoritos'}">
+                        ${isFav ? '❤️' : '🤍'}
+                    </button>
+                    <div class="song-header">
+                        <div class="song-image">🎵</div>
+                        <div class="song-details">
+                            <div class="song-title">${song.name || 'Sin nombre'}</div>
+                            <div class="song-artist">${song.artists || 'Artista desconocido'}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="song-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">${song.year || 'N/A'}</div>
+                            <div class="stat-label">Año</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">${(song.popularity || 0).toFixed(0)}%</div>
+                            <div class="stat-label">Popularidad</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">${formatDuration(song.duration_ms || 0)}</div>
+                            <div class="stat-label">Duración</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">${(song.tempo || 0).toFixed(0)}</div>
+                            <div class="stat-label">BPM</div>
+                        </div>
+                    </div>
+
+                    <div class="song-features">
+                        <div class="feature-bar">
+                            <div class="feature-label">Bailabilidad</div>
+                            <div class="feature-progress">
+                                <div class="feature-fill" style="width: ${(song.danceability || 0) * 100}%"></div>
+                            </div>
+                            <div class="feature-value">${((song.danceability || 0) * 100).toFixed(0)}%</div>
+                        </div>
+                        <div class="feature-bar">
+                            <div class="feature-label">Acústica</div>
+                            <div class="feature-progress">
+                                <div class="feature-fill" style="width: ${(song.acousticness || 0) * 100}%"></div>
+                            </div>
+                            <div class="feature-value">${((song.acousticness || 0) * 100).toFixed(0)}%</div>
+                        </div>
+                        <div class="feature-bar">
+                            <div class="feature-label">Energía</div>
+                            <div class="feature-progress">
+                                <div class="feature-fill" style="width: ${(1 - (song.acousticness || 0)) * 100}%"></div>
+                            </div>
+                            <div class="feature-value">${((1 - (song.acousticness || 0)) * 100).toFixed(0)}%</div>
+                        </div>
+                    </div>
+                </div>
+                `;
+            }).join('');
+        }
+
+        function goBackToMoods() {
+            // Ocultar sección de canciones
+            document.getElementById('popularSongsSection').style.display = 'none';
+            
+            // Ocultar migas de pan
+            document.getElementById('breadcrumbs').style.display = 'none';
+            
+            // Mostrar categorías de estados de ánimo
+            document.getElementById('moodCategories').style.display = 'grid';
+        }
+
+        // Cargar canciones populares al inicio (ya no se usa, pero se mantiene por compatibilidad)
+        async function loadPopularSongs() {
+            // Ya no cargamos canciones al inicio, se cargan cuando se selecciona un estado de ánimo
+        }
+
+        function displayPopularSongs(songs) {
+            const grid = document.getElementById('popularSongsGrid');
+            
+            // Guardar lista actual para acceso en toggleFavorite
+            currentPopularSongsList = songs || [];
+            
+            if (!grid || songs.length === 0) return;
+
+            grid.innerHTML = songs.map(song => {
+                const isFav = isFavorite(song.index);
+                return `
+                <div class="popular-song-card" onclick="selectPopularSong(${song.index}, '${song.name.replace(/'/g, "\\'")}', '${song.artists.replace(/'/g, "\\'")}')">
+                    <button class="popular-favorite-btn ${isFav ? 'favorited' : ''}" 
+                            data-song-index="${song.index}"
+                            onclick="event.stopPropagation(); toggleFavorite(${song.index}, event); return false;"
+                            title="${isFav ? 'Quitar de favoritos' : 'Añadir a favoritos'}">
+                        ${isFav ? '❤️' : '🤍'}
+                    </button>
+                    <div class="song-title">${song.name}</div>
+                    <div class="song-artist">${song.artists}</div>
+                </div>
+            `;
+            }).join('');
+        }
+
+        function selectPopularSong(index, name, artist) {
+            // Ocultar sección de populares y mostrar resultados
+            document.getElementById('popularSongsSection').style.display = 'none';
+            
+            // Buscar la canción completa
+            document.getElementById('searchInput').value = name;
+            searchSong();
+        }
+
+        // Autocompletado
+        let suggestionsTimeout;
+        const searchInput = document.getElementById('searchInput');
+        const suggestionsDropdown = document.getElementById('suggestionsDropdown');
+
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.trim();
+            
+            clearTimeout(suggestionsTimeout);
+            
+            if (query.length < 2) {
+                suggestionsDropdown.classList.remove('show');
+                return;
+            }
+
+            suggestionsTimeout = setTimeout(async () => {
+                try {
+                    const response = await fetch(`${API_BASE_URL}/api/search-suggestions?q=${encodeURIComponent(query)}&limit=8`);
+                    if (response.ok) {
+                        const suggestions = await response.json();
+                        displaySuggestions(suggestions);
+                    }
+                } catch (error) {
+                    console.error('Error al obtener sugerencias:', error);
+                }
+            }, 300);
+        });
+
+        function displaySuggestions(suggestions) {
+            if (suggestions.length === 0) {
+                suggestionsDropdown.classList.remove('show');
+                return;
+            }
+
+            suggestionsDropdown.innerHTML = suggestions.map(suggestion => `
+                <div class="suggestion-item" onclick="selectSuggestion('${suggestion.name.replace(/'/g, "\\'")}')">
+                    <div>
+                        <div class="suggestion-name">${suggestion.name}</div>
+                        <div class="suggestion-artist">${suggestion.artists}</div>
+                    </div>
+                </div>
+            `).join('');
+
+            suggestionsDropdown.classList.add('show');
+        }
+
+        function selectSuggestion(name) {
+            searchInput.value = name;
+            suggestionsDropdown.classList.remove('show');
+            searchSong();
+        }
+
+        // Ocultar sugerencias al hacer clic fuera
+        document.addEventListener('click', (e) => {
+            if (!searchInput.contains(e.target) && !suggestionsDropdown.contains(e.target)) {
+                suggestionsDropdown.classList.remove('show');
+            }
+        });
+
+        // Búsqueda
+        document.getElementById('searchInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                suggestionsDropdown.classList.remove('show');
+                searchSong();
+            }
+        });
+
+        async function searchSong() {
+            const name = document.getElementById('searchInput').value;
+            const searchBtn = document.querySelector('.search-btn');
+            const resultsContainer = document.getElementById('searchResults');
+            
+            if (!name) {
+                shakeElement(document.getElementById('searchInput'));
+                return;
+            }
+
+            // Efectos visuales de carga
+            showLoadingSpinner(resultsContainer);
+            if (searchBtn) {
+                addPulseEffect(searchBtn);
+            }
+            
+            // Agregar a historial
+            addToSearchHistory(name);
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/find-song`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ name: name })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Error en la búsqueda');
+                }
+
+                const songs = await response.json();
+                console.log('Canciones recibidas:', songs); // Debug
+                hideLoadingSpinner();
+                displaySongs(songs);
+            } catch (error) {
+                hideLoadingSpinner();
+                shakeElement(document.getElementById('searchInput'));
+                console.error('Error:', error);
+                // Mostrar mensaje de error al usuario
+                const resultsContainer = document.getElementById('searchResults');
+                resultsContainer.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: #ff6b6b;">
+                        <h3>❌ Error al buscar canciones</h3>
+                        <p>${error.message || 'No se pudo conectar con el servidor'}</p>
+                        <p style="font-size: 12px; color: #B3B3B3; margin-top: 10px;">Asegúrate de que el servidor Flask esté corriendo</p>
+                    </div>
+                `;
+            }
+        }
+
+        function displaySongs(songs) {
+            const container = document.getElementById('searchResults');
+            const popularSection = document.getElementById('popularSongsSection');
+            
+            // Guardar lista actual para acceso en toggleFavorite
+            currentSongsList = songs || [];
+            
+            // Ocultar sección de populares cuando hay resultados de búsqueda
+            if (popularSection) {
+                popularSection.style.display = 'none';
+            }
+            
+            if (!songs || songs.length === 0) {
+                container.innerHTML = '<div style="text-align: center; padding: 40px; color: #B3B3B3;"><h3>No se encontraron canciones</h3><p>Intenta con otro término de búsqueda</p></div>';
+                return;
+            }
+
+            console.log('Mostrando canciones:', songs.length); // Debug
+
+            container.innerHTML = `
+                <div class="songs-grid">
+                    ${songs.map((song, idx) => {
+                        const isFav = isFavorite(song.index);
+                        return `
+                        <div class="song-card slide-up" style="animation-delay: ${idx * 0.1}s" onclick="selectSong(${song.index}, this)">
+                            <button class="song-favorite-btn ${isFav ? 'favorited' : ''}" 
+                                    data-song-index="${song.index}"
+                                    onclick="event.stopPropagation(); toggleFavorite(${song.index}, event); return false;"
+                                    title="${isFav ? 'Quitar de favoritos' : 'Añadir a favoritos'}">
+                                ${isFav ? '❤️' : '🤍'}
+                            </button>
+                            <div class="song-header">
+                                <div class="song-image">🎵</div>
+                                <div class="song-details">
+                                    <div class="song-title">${song.name || 'Sin nombre'}</div>
+                                    <div class="song-artist">${song.artists || 'Artista desconocido'}</div>
+                                </div>
+                            </div>
+                            
+                            <div class="song-stats">
+                                <div class="stat-item">
+                                    <div class="stat-value">${song.year || 'N/A'}</div>
+                                    <div class="stat-label">Año</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value">${(song.popularity || 0).toFixed(0)}%</div>
+                                    <div class="stat-label">Popularidad</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value">${formatDuration(song.duration_ms || 0)}</div>
+                                    <div class="stat-label">Duración</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value">${(song.tempo || 0).toFixed(0)}</div>
+                                    <div class="stat-label">BPM</div>
+                                </div>
+                            </div>
+
+                            <div class="song-features">
+                                <div class="feature-bar">
+                                    <div class="feature-label">Bailabilidad</div>
+                                    <div class="feature-progress">
+                                        <div class="feature-fill" style="width: ${(song.danceability || 0) * 100}%"></div>
+                                    </div>
+                                    <div class="feature-value">${((song.danceability || 0) * 100).toFixed(0)}%</div>
+                                </div>
+                                <div class="feature-bar">
+                                    <div class="feature-label">Acústica</div>
+                                    <div class="feature-progress">
+                                        <div class="feature-fill" style="width: ${(song.acousticness || 0) * 100}%"></div>
+                                    </div>
+                                    <div class="feature-value">${((song.acousticness || 0) * 100).toFixed(0)}%</div>
+                                </div>
+                                <div class="feature-bar">
+                                    <div class="feature-label">Energía</div>
+                                    <div class="feature-progress">
+                                        <div class="feature-fill" style="width: ${(1 - (song.acousticness || 0)) * 100}%"></div>
+                                    </div>
+                                    <div class="feature-value">${((1 - (song.acousticness || 0)) * 100).toFixed(0)}%</div>
+                                </div>
+                            </div>
+                        </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+
+            document.getElementById('recommendBtn').style.display = 'none';
+            currentSongIndex = null;
+        }
+
+        function selectSong(index, element) {
+            // Efecto visual de selección
+            addGlowEffect(element);
+            
+            // Remover selección previa
+            document.querySelectorAll('.song-card').forEach(card => card.classList.remove('selected'));
+            
+            // Seleccionar nueva canción
+            element.classList.add('selected');
+            currentSongIndex = index;
+            
+            // Mostrar botón de recomendaciones con animación
+            const btn = document.getElementById('recommendBtn');
+            btn.style.display = 'block';
+            btn.classList.add('bounce-in');
+            
+            // Efecto de pulso en el botón
+            setTimeout(() => {
+                addPulseEffect(btn);
+            }, 500);
+        }
+
+        async function getRecommendations() {
+            if (currentSongIndex === null) {
+                alert('Por favor, selecciona una canción');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/get-recommendations`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ song_idx: currentSongIndex })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Error al obtener recomendaciones');
+                }
+
+                const recommendations = await response.json();
+                currentRecommendations = recommendations;
+                
+                // Actualizar estadísticas
+                userStats.recommendations++;
+                const avgSimilarity = recommendations.reduce((sum, rec) => sum + (1 - rec.distance), 0) / recommendations.length * 100;
+                userStats.avgSimilarity = avgSimilarity;
+                localStorage.setItem('userStats', JSON.stringify(userStats));
+                
+                // Obtener información de la canción seleccionada
+                const selectedSong = document.querySelector('.song-card.selected');
+                if (selectedSong) {
+                    const songTitle = selectedSong.querySelector('.song-title').textContent;
+                    const songArtist = selectedSong.querySelector('.song-artist').textContent;
+                    const baseSong = { name: songTitle, artists: songArtist };
+                    showBaseSongInfo(baseSong);
+                    
+                    // Guardar recomendaciones automáticamente
+                    saveRecommendations(baseSong, recommendations);
+                }
+                
+                displayRecommendations(recommendations);
+                
+                // Cambiar a página de recomendaciones
+                showPage('recommendations');
+                document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+                document.querySelector('[data-page="recommendations"]').classList.add('active');
+            } catch (error) {
+                console.error('Error:', error);
+                alert(`Error al obtener recomendaciones: ${error.message || 'No se pudo conectar con el servidor'}`);
+            }
+        }
+
+        function displayRecommendations(recommendations) {
+            const container = document.getElementById('recommendationsResults');
+            
+            // Guardar lista actual para acceso en toggleFavorite
+            currentRecommendationsList = recommendations || [];
+            
+            if (recommendations.length === 0) {
+                container.innerHTML = '<div style="text-align: center; padding: 40px; color: #B3B3B3;"><h3>No hay recomendaciones disponibles</h3><p>Intenta con otra canción</p></div>';
+                return;
+            }
+
+            container.innerHTML = `
+                <div class="songs-grid">
+                    ${recommendations.map((song, index) => {
+                const similarity = (1 - song.distance) * 100;
+                const isFav = isFavorite(song.index);
+                return `
+                            <div class="song-card slide-up" style="animation-delay: ${index * 0.1}s">
+                                <button class="song-favorite-btn ${isFav ? 'favorited' : ''}" 
+                                        data-song-index="${song.index}"
+                                        onclick="event.stopPropagation(); toggleFavorite(${song.index}, event); return false;"
+                                        title="${isFav ? 'Quitar de favoritos' : 'Añadir a favoritos'}">
+                                    ${isFav ? '❤️' : '🤍'}
+                                </button>
+                                <div class="song-header">
+                                    <div class="song-image">🎵</div>
+                                    <div class="song-details">
+                                        <div class="song-title">${index + 1}. ${song.name}</div>
+                                        <div class="song-artist">${song.artists}</div>
+                        </div>
+                        </div>
+                                
+                                <div class="song-stats">
+                                    <div class="stat-item">
+                                        <div class="stat-value">${song.year}</div>
+                                        <div class="stat-label">Año</div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <div class="stat-value">${similarity.toFixed(0)}%</div>
+                                        <div class="stat-label">Similitud</div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <div class="stat-value">${song.popularity.toFixed(0)}%</div>
+                                        <div class="stat-label">Popularidad</div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <div class="stat-value">${song.tempo.toFixed(0)}</div>
+                                        <div class="stat-label">BPM</div>
+                                    </div>
+                                </div>
+
+                                <div class="song-features">
+                                    <div class="feature-bar">
+                                        <div class="feature-label">Bailabilidad</div>
+                                        <div class="feature-progress">
+                                            <div class="feature-fill" style="width: ${song.danceability * 100}%"></div>
+                                        </div>
+                                        <div class="feature-value">${(song.danceability * 100).toFixed(0)}%</div>
+                                    </div>
+                                    <div class="feature-bar">
+                                        <div class="feature-label">Acústica</div>
+                                        <div class="feature-progress">
+                                            <div class="feature-fill" style="width: ${song.acousticness * 100}%"></div>
+                                        </div>
+                                        <div class="feature-value">${(song.acousticness * 100).toFixed(0)}%</div>
+                                    </div>
+                                    <div class="feature-bar">
+                                        <div class="feature-label">Energía</div>
+                                        <div class="feature-progress">
+                                            <div class="feature-fill" style="width: ${(1 - song.acousticness) * 100}%"></div>
+                                        </div>
+                                        <div class="feature-value">${((1 - song.acousticness) * 100).toFixed(0)}%</div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+        }
+
+        function formatDuration(ms) {
+            const minutes = Math.floor(ms / 60000);
+            const seconds = ((ms % 60000) / 1000).toFixed(1);
+            return `${minutes}:${seconds.padStart(4, '0')}`;
+        }
+
+        function updateSearchHistory() {
+            const container = document.getElementById('searchHistory');
+            container.innerHTML = searchHistory.map(term => 
+                `<div class="history-item" onclick="searchFromHistory('${term}')">${term}</div>`
+            ).join('');
+        }
+
+        function searchFromHistory(term) {
+            document.getElementById('searchInput').value = term;
+            searchSong();
+        }
+
+        // Variables para filtros
+        let currentRecommendations = [];
+        let currentBaseSong = null;
+
+        // Inicializar filtros
+        function initializeFilters() {
+            // Sliders con valores en tiempo real
+            document.getElementById('popularityRange').addEventListener('input', function() {
+                document.getElementById('popularityValue').textContent = this.value + '%';
+            });
+
+            document.getElementById('tempoRange').addEventListener('input', function() {
+                document.getElementById('tempoValue').textContent = this.value + ' BPM';
+            });
+
+            // Botones de filtro rápido
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    applyQuickFilter(this.dataset.filter);
+                });
+            });
+
+            // Botón aplicar filtros
+            document.getElementById('applyFiltersBtn').addEventListener('click', applyFilters);
+
+            // Botón limpiar filtros
+            document.getElementById('resetFiltersBtn').addEventListener('click', resetFilters);
+        }
+
+        function applyQuickFilter(filter) {
+            if (!currentRecommendations.length) return;
+
+            let filtered = [...currentRecommendations];
+
+            switch(filter) {
+                case 'danceable':
+                    filtered = filtered.filter(song => song.danceability > 0.7);
+                    break;
+                case 'acoustic':
+                    filtered = filtered.filter(song => song.acousticness > 0.5);
+                    break;
+                case 'popular':
+                    filtered = filtered.filter(song => song.popularity > 50);
+                    break;
+                case 'recent':
+                    filtered = filtered.filter(song => song.year > 2010);
+                    break;
+                case 'all':
+                default:
+                    // No filtrar
+                    break;
+            }
+
+            displayRecommendations(filtered);
+        }
+
+        function applyFilters() {
+            if (!currentRecommendations.length) {
+                alert('No hay recomendaciones para filtrar. Primero busca una canción y obtén recomendaciones.');
+                return;
+            }
+
+            let filtered = [...currentRecommendations];
+
+            // Filtro por año
+            const yearFrom = document.getElementById('yearFrom').value;
+            const yearTo = document.getElementById('yearTo').value;
+            
+            if (yearFrom) {
+                filtered = filtered.filter(song => song.year >= parseInt(yearFrom));
+            }
+            if (yearTo) {
+                filtered = filtered.filter(song => song.year <= parseInt(yearTo));
+            }
+
+            // Filtro por popularidad
+            const popularity = document.getElementById('popularityRange').value;
+            if (popularity > 0) {
+                filtered = filtered.filter(song => song.popularity >= parseInt(popularity));
+            }
+
+            // Filtro por tempo
+            const tempo = document.getElementById('tempoRange').value;
+            if (tempo > 60) {
+                filtered = filtered.filter(song => song.tempo >= parseInt(tempo));
+            }
+
+            // Mostrar resultados
+            if (filtered.length === 0) {
+                displayRecommendations([]);
+                alert('No se encontraron canciones con esos filtros. Intenta con valores diferentes.');
+            } else {
+                displayRecommendations(filtered);
+                // Mostrar mensaje de cuántas canciones se encontraron
+                const message = document.createElement('div');
+                message.style.cssText = 'text-align: center; padding: 10px; background-color: #1DB954; color: #000; border-radius: 6px; margin-bottom: 20px; font-weight: 600;';
+                message.textContent = `Mostrando ${filtered.length} de ${currentRecommendations.length} recomendaciones`;
+                
+                const container = document.getElementById('recommendationsResults');
+                const existingMessage = container.querySelector('.filter-message');
+                if (existingMessage) existingMessage.remove();
+                
+                message.className = 'filter-message';
+                container.insertBefore(message, container.firstChild);
+            }
+        }
+
+        function resetFilters() {
+            // Limpiar campos de año
+            document.getElementById('yearFrom').value = '';
+            document.getElementById('yearTo').value = '';
+            
+            // Resetear sliders
+            document.getElementById('popularityRange').value = 0;
+            document.getElementById('popularityValue').textContent = '0%';
+            document.getElementById('tempoRange').value = 60;
+            document.getElementById('tempoValue').textContent = '60 BPM';
+            
+            // Resetear botones de filtro rápido
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            document.querySelector('[data-filter="all"]').classList.add('active');
+            
+            // Mostrar todas las recomendaciones
+            if (currentRecommendations.length > 0) {
+                displayRecommendations(currentRecommendations);
+            }
+        }
+
+        function showBaseSongInfo(song) {
+            currentBaseSong = song;
+            const baseSongInfo = document.getElementById('baseSongInfo');
+            const baseSongTitle = document.getElementById('baseSongTitle');
+            const baseSongArtist = document.getElementById('baseSongArtist');
+
+            baseSongTitle.textContent = song.name;
+            baseSongArtist.textContent = song.artists;
+            baseSongInfo.style.display = 'flex';
+        }
+
+        // Funciones de Explorar
+        async function exploreByFeature(feature) {
+            try {
+                let searchTerm = '';
+                let title = '';
+                
+                switch(feature) {
+                    case 'popular':
+                        searchTerm = 'popular';
+                        title = 'Canciones Más Populares';
+                        break;
+                    case 'recent':
+                        searchTerm = 'recent';
+                        title = 'Canciones Recientes';
+                        break;
+                    case 'danceable':
+                        searchTerm = 'danceable';
+                        title = 'Música Para Bailar';
+                        break;
+                    case 'acoustic':
+                        searchTerm = 'acoustic';
+                        title = 'Música Acústica';
+                        break;
+                    case 'high-energy':
+                        searchTerm = 'energy';
+                        title = 'Música de Alta Energía';
+                        break;
+                    case 'instrumental':
+                        searchTerm = 'instrumental';
+                        title = 'Música Instrumental';
+                        break;
+                    case 'live':
+                        searchTerm = 'live';
+                        title = 'Grabaciones En Vivo';
+                        break;
+                    case 'speech':
+                        searchTerm = 'speech';
+                        title = 'Música Con Habla';
+                        break;
+                    default:
+                        return;
+                }
+
+                // Simular búsqueda por características (en un caso real, esto sería una API)
+                const songs = await getSongsByFeature(feature);
+                
+                document.getElementById('exploreResultsTitle').textContent = title;
+                document.getElementById('exploreResults').style.display = 'block';
+                displayExploreResults(songs);
+                
+            } catch (error) {
+                alert('Error al explorar: ' + error.message);
+            }
+        }
+
+        async function getSongsByFeature(feature) {
+            // Si es 'popular', usar el endpoint de canciones populares
+            if (feature === 'popular') {
+                const response = await fetch(`${API_BASE_URL}/api/popular-songs?limit=20`);
+                if (!response.ok) {
+                    throw new Error('Error al obtener canciones populares');
+                }
+                const songs = await response.json();
+                return songs;
+            }
+            
+            // Para otras características, usar el endpoint de características
+            const response = await fetch(`${API_BASE_URL}/api/songs-by-feature?feature=${encodeURIComponent(feature)}&limit=20`);
+            
+            if (!response.ok) {
+                throw new Error('Error en la búsqueda por característica');
+            }
+
+            const songs = await response.json();
+            return songs;
+        }
+
+        function displayExploreResults(songs) {
+            const container = document.getElementById('exploreResultsContent');
+            
+            if (songs.length === 0) {
+                container.innerHTML = '<div style="text-align: center; padding: 40px; color: #B3B3B3;"><h3>No se encontraron canciones</h3></div>';
+                return;
+            }
+
+            container.innerHTML = `
+                <div class="songs-grid">
+                    ${songs.map((song, idx) => {
+                        const isFav = isFavorite(song.index);
+                        return `
+                        <div class="song-card slide-up" style="animation-delay: ${idx * 0.1}s" onclick="selectSongForRecommendation(${song.index}, this)">
+                            <button class="song-favorite-btn ${isFav ? 'favorited' : ''}" 
+                                    data-song-index="${song.index}"
+                                    onclick="event.stopPropagation(); toggleFavorite(${song.index}, event); return false;"
+                                    title="${isFav ? 'Quitar de favoritos' : 'Añadir a favoritos'}">
+                                ${isFav ? '❤️' : '🤍'}
+                            </button>
+                            <div class="song-header">
+                                <div class="song-image">🎵</div>
+                                <div class="song-details">
+                                    <div class="song-title">${song.name}</div>
+                                    <div class="song-artist">${song.artists}</div>
+                                </div>
+                            </div>
+                            
+                            <div class="song-stats">
+                                <div class="stat-item">
+                                    <div class="stat-value">${song.year}</div>
+                                    <div class="stat-label">Año</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value">${song.popularity.toFixed(0)}%</div>
+                                    <div class="stat-label">Popularidad</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value">${formatDuration(song.duration_ms)}</div>
+                                    <div class="stat-label">Duración</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value">${song.tempo.toFixed(0)}</div>
+                                    <div class="stat-label">BPM</div>
+                                </div>
+                            </div>
+
+                            <div class="song-features">
+                                <div class="feature-bar">
+                                    <div class="feature-label">Bailabilidad</div>
+                                    <div class="feature-progress">
+                                        <div class="feature-fill" style="width: ${song.danceability * 100}%"></div>
+                                    </div>
+                                    <div class="feature-value">${(song.danceability * 100).toFixed(0)}%</div>
+                                </div>
+                                <div class="feature-bar">
+                                    <div class="feature-label">Acústica</div>
+                                    <div class="feature-progress">
+                                        <div class="feature-fill" style="width: ${song.acousticness * 100}%"></div>
+                                    </div>
+                                    <div class="feature-value">${(song.acousticness * 100).toFixed(0)}%</div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    }).join('')}
+                </div>
+            `;
+        }
+
+        function selectSongForRecommendation(index, element) {
+            // Remover selección previa
+            document.querySelectorAll('.song-card').forEach(card => card.classList.remove('selected'));
+            
+            // Seleccionar nueva canción
+            element.classList.add('selected');
+            currentSongIndex = index;
+            
+            // Mostrar opción de obtener recomendaciones
+            const existingBtn = document.querySelector('.explore-recommend-btn');
+            if (existingBtn) existingBtn.remove();
+            
+            const btn = document.createElement('div');
+            btn.className = 'btn-container explore-recommend-btn';
+            btn.innerHTML = '<button class="btn btn-large" onclick="getRecommendationsFromExplore()">🎵 Ver Recomendaciones</button>';
+            
+            const results = document.getElementById('exploreResults');
+            results.appendChild(btn);
+        }
+
+        async function getRecommendationsFromExplore() {
+            if (currentSongIndex === null) {
+                alert('Por favor, selecciona una canción');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/get-recommendations`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ song_idx: currentSongIndex })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Error al obtener recomendaciones');
+                }
+
+                const recommendations = await response.json();
+                currentRecommendations = recommendations;
+                
+                // Obtener información de la canción seleccionada
+                const selectedSong = document.querySelector('.song-card.selected');
+                if (selectedSong) {
+                    const songTitle = selectedSong.querySelector('.song-title').textContent;
+                    const songArtist = selectedSong.querySelector('.song-artist').textContent;
+                    showBaseSongInfo({ name: songTitle, artists: songArtist });
+                }
+                
+                displayRecommendations(recommendations);
+                
+                // Cambiar a página de recomendaciones
+                showPage('recommendations');
+                document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+                document.querySelector('[data-page="recommendations"]').classList.add('active');
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        async function performAdvancedSearch() {
+            const artist = document.getElementById('artistSearch').value.trim();
+            const decade = document.getElementById('decadeSearch').value;
+            const tempoMin = document.getElementById('tempoMin').value;
+            const tempoMax = document.getElementById('tempoMax').value;
+            const popularity = document.getElementById('popularitySearch').value;
+
+            if (!artist && !decade && !tempoMin && !tempoMax && popularity == 0) {
+                alert('Por favor, completa al menos un campo de búsqueda');
+                return;
+            }
+
+            try {
+                let filteredSongs = [];
+                
+                // Si hay un artista, buscar canciones de ese artista
+                if (artist) {
+                    const response = await fetch(`${API_BASE_URL}/api/find-song`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ name: artist })
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Error en la búsqueda del artista');
+                    }
+
+                    const songs = await response.json();
+                    
+                    // Filtrar por artista (búsqueda case-insensitive en el campo artists)
+                    const artistLower = artist.toLowerCase();
+                    filteredSongs = songs.filter(song => {
+                        if (!song.artists) return false;
+                        const songArtists = song.artists.toLowerCase();
+                        // Verificar si el nombre del artista está en la cadena de artistas
+                        return songArtists.includes(artistLower);
+                    });
+                } else {
+                    // Si no hay artista, obtener canciones populares para filtrar
+                    const response = await fetch(`${API_BASE_URL}/api/popular-songs?limit=100`);
+                    if (response.ok) {
+                        filteredSongs = await response.json();
+                    }
+                }
+                
+                // Aplicar filtros adicionales
+                if (decade) {
+                    const startYear = parseInt(decade);
+                    const endYear = startYear + 9;
+                    filteredSongs = filteredSongs.filter(song => song.year >= startYear && song.year <= endYear);
+                }
+                
+                if (tempoMin) {
+                    filteredSongs = filteredSongs.filter(song => song.tempo >= parseInt(tempoMin));
+                }
+                
+                if (tempoMax) {
+                    filteredSongs = filteredSongs.filter(song => song.tempo <= parseInt(tempoMax));
+                }
+                
+                if (popularity > 0) {
+                    filteredSongs = filteredSongs.filter(song => song.popularity >= parseInt(popularity));
+                }
+
+                if (filteredSongs.length === 0) {
+                    alert('No se encontraron canciones que coincidan con los criterios de búsqueda');
+                    return;
+                }
+
+                document.getElementById('exploreResultsTitle').textContent = `Resultados de Búsqueda Avanzada (${filteredSongs.length} canciones)`;
+                document.getElementById('exploreResults').style.display = 'block';
+                displayExploreResults(filteredSongs);
+                
+            } catch (error) {
+                alert('Error en la búsqueda avanzada: ' + error.message);
+            }
+        }
+
+        // Funciones de Biblioteca
+        function initializeLibrary() {
+            // Pestañas de biblioteca
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const tab = this.dataset.tab;
+                    showLibraryTab(tab);
+                    
+                    // Actualizar pestañas activas
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // Actualizar todas las secciones
+            updateSearchHistory();
+            updateFavorites();
+            updateSavedRecommendations();
+            updateStats();
+        }
+
+        function showLibraryTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.getElementById(tabId + '-tab').classList.add('active');
+        }
+
+        function updateSearchHistory() {
+            const container = document.getElementById('searchHistory');
+            
+            if (searchHistory.length === 0) {
+                container.innerHTML = '<div class="empty-state"><div class="empty-icon">🔍</div><h3>No hay búsquedas recientes</h3><p>Comienza buscando canciones</p></div>';
+                return;
+            }
+
+            container.innerHTML = searchHistory.map((term, index) => {
+                const timeAgo = getTimeAgo(term.timestamp || Date.now());
+                return `
+                    <div class="history-item" onclick="searchFromHistory('${term.term || term}')">
+                        <div>
+                            <div class="search-term">${term.term || term}</div>
+                            <div class="search-time">${timeAgo}</div>
+                        </div>
+                        <button class="action-btn remove" onclick="removeFromHistory(${index}, event)">🗑️</button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function updateFavorites() {
+            const container = document.getElementById('favoritesList');
+            const count = document.getElementById('favoritesCount');
+            
+            count.textContent = favorites.length;
+            
+            if (favorites.length === 0) {
+                container.innerHTML = '<div class="empty-state"><div class="empty-icon">❤️</div><h3>No tienes favoritos aún</h3><p>Marca canciones como favoritas para verlas aquí</p></div>';
+                return;
+            }
+
+            container.innerHTML = favorites.map((song, index) => `
+                <div class="favorite-item">
+                    <div class="item-image">🎵</div>
+                    <div class="item-details">
+                        <div class="item-title">${song.name}</div>
+                        <div class="item-artist">${song.artists}</div>
+                    </div>
+                    <div class="item-actions">
+                        <button class="action-btn" onclick="getRecommendationsForSong(${song.index})">🎵 Recomendaciones</button>
+                        <button class="action-btn remove" onclick="removeFavorite(${index})">❤️ Quitar</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updateSavedRecommendations() {
+            const container = document.getElementById('savedRecommendations');
+            const count = document.getElementById('savedCount');
+            
+            count.textContent = savedRecommendations.length;
+            
+            if (savedRecommendations.length === 0) {
+                container.innerHTML = '<div class="empty-state"><div class="empty-icon">💾</div><h3>No tienes recomendaciones guardadas</h3><p>Guarda recomendaciones para acceder a ellas más tarde</p></div>';
+                return;
+            }
+
+            container.innerHTML = savedRecommendations.map((rec, index) => `
+                <div class="saved-item">
+                    <div class="item-image">🎵</div>
+                    <div class="item-details">
+                        <div class="item-title">${rec.baseSong.name}</div>
+                        <div class="item-artist">${rec.baseSong.artists} - ${rec.recommendations.length} recomendaciones</div>
+                    </div>
+                    <div class="item-actions">
+                        <button class="action-btn" onclick="viewSavedRecommendations(${index})">👁️ Ver</button>
+                        <button class="action-btn remove" onclick="removeSavedRecommendations(${index})">🗑️ Eliminar</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updateStats() {
+            document.getElementById('totalSearches').textContent = userStats.searches;
+            document.getElementById('totalRecommendations').textContent = userStats.recommendations;
+            document.getElementById('totalFavorites').textContent = userStats.favorites;
+            document.getElementById('avgSimilarity').textContent = userStats.avgSimilarity.toFixed(1) + '%';
+            
+            // Actualizar gráfico de búsquedas
+            updateSearchChart();
+        }
+
+        function updateSearchChart() {
+            const chartContainer = document.getElementById('chartBars');
+            
+            if (searchHistory.length === 0) {
+                chartContainer.innerHTML = `
+                    <div class="chart-empty">
+                        <div class="chart-empty-icon">📊</div>
+                        <p>No hay datos de búsqueda para mostrar</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Obtener datos de los últimos 7 días
+            const last7Days = getLast7Days();
+            const searchData = getSearchDataByDay(last7Days);
+            
+            // Encontrar el máximo para escalar las barras
+            const maxSearches = Math.max(...searchData.map(day => day.count), 1);
+            
+            chartContainer.innerHTML = searchData.map(day => {
+                const height = (day.count / maxSearches) * 100;
+                const dayName = day.date.toLocaleDateString('es-ES', { weekday: 'short' });
+                const dayNumber = day.date.getDate();
+                
+                return `
+                    <div class="chart-bar" style="height: ${height}%" title="${day.count} búsquedas el ${day.date.toLocaleDateString('es-ES')}">
+                        <div class="chart-bar-value">${day.count}</div>
+                        <div class="chart-bar-label">${dayName}<br>${dayNumber}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function getLast7Days() {
+            const days = [];
+            for (let i = 6; i >= 0; i--) {
+                const date = new Date();
+                date.setDate(date.getDate() - i);
+                date.setHours(0, 0, 0, 0); // Inicio del día
+                days.push(date);
+            }
+            return days;
+        }
+
+        function getSearchDataByDay(days) {
+            return days.map(day => {
+                const dayStart = new Date(day);
+                const dayEnd = new Date(day);
+                dayEnd.setHours(23, 59, 59, 999);
+                
+                const count = searchHistory.filter(search => {
+                    const searchTime = new Date(search.timestamp || Date.now());
+                    return searchTime >= dayStart && searchTime <= dayEnd;
+                }).length;
+                
+                return {
+                    date: day,
+                    count: count
+                };
+            });
+        }
+
+        // Funciones de gestión
+        function addToFavorites(song) {
+            if (!favorites.find(fav => fav.index === song.index)) {
+                favorites.push(song);
+                localStorage.setItem('favorites', JSON.stringify(favorites));
+                userStats.favorites = favorites.length;
+                localStorage.setItem('userStats', JSON.stringify(userStats));
+                updateFavorites();
+                updateStats();
+            }
+        }
+
+        function removeFavorite(index) {
+            favorites.splice(index, 1);
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+            userStats.favorites = favorites.length;
+            localStorage.setItem('userStats', JSON.stringify(userStats));
+            updateFavorites();
+            updateStats();
+        }
+
+        function isFavorite(songIndex) {
+            return favorites.some(fav => fav.index === songIndex);
+        }
+
+        function toggleFavorite(songIndex, eventOrButton) {
+            console.log('toggleFavorite llamado:', songIndex, eventOrButton); // Debug
+            
+            // Manejar tanto evento como botón directamente
+            let event = null;
+            let button = null;
+            
+            // Si no se pasa nada, intentar obtener el evento global
+            if (!eventOrButton && window.event) {
+                eventOrButton = window.event;
+            }
+            
+            if (eventOrButton && eventOrButton.preventDefault) {
+                // Es un evento
+                event = eventOrButton;
+                event.preventDefault();
+                event.stopPropagation();
+                event.stopImmediatePropagation();
+                button = event.target;
+            } else if (eventOrButton && eventOrButton.tagName === 'BUTTON') {
+                // Es el botón directamente
+                button = eventOrButton;
+            } else if (eventOrButton && eventOrButton.target) {
+                // Es un evento con target
+                event = eventOrButton;
+                event.preventDefault();
+                event.stopPropagation();
+                event.stopImmediatePropagation();
+                button = event.target;
+            } else {
+                // Intentar obtener el botón desde el DOM
+                button = document.querySelector(`[data-song-index="${songIndex}"]`);
+            }
+            
+            if (!button) {
+                console.error('No se pudo encontrar el botón para la canción:', songIndex);
+                return;
+            }
+            
+            // Buscar la canción en las listas actuales
+            let song = currentSongsList.find(s => s.index === songIndex) ||
+                      currentRecommendationsList.find(s => s.index === songIndex) ||
+                      currentPopularSongsList.find(s => s.index === songIndex);
+            
+            // Si no encontramos la canción, intentar extraerla del DOM
+            if (!song && button) {
+                const songCard = button.closest('.song-card, .popular-song-card');
+                if (songCard) {
+                    const title = songCard.querySelector('.song-title')?.textContent?.replace(/^\d+\.\s*/, '') || '';
+                    const artist = songCard.querySelector('.song-artist')?.textContent || '';
+                    song = { index: songIndex, name: title, artists: artist };
+                }
+            }
+            
+            // Si no encontramos la canción, crear un objeto básico
+            if (!song) {
+                song = { index: songIndex, name: 'Canción', artists: 'Artista' };
+            }
+            
+            const existingIndex = favorites.findIndex(fav => fav.index === songIndex);
+            
+            if (existingIndex !== -1) {
+                // Ya está en favoritos, eliminarlo
+                favorites.splice(existingIndex, 1);
+                localStorage.setItem('favorites', JSON.stringify(favorites));
+                userStats.favorites = favorites.length;
+                localStorage.setItem('userStats', JSON.stringify(userStats));
+                updateFavorites();
+                updateStats();
+                
+                // Actualizar el botón visualmente
+                if (button) {
+                    button.classList.remove('favorited');
+                    button.textContent = '🤍';
+                }
+            } else {
+                // Añadir a favoritos
+                addToFavorites(song);
+                
+                // Actualizar el botón visualmente
+                if (button) {
+                    button.classList.add('favorited');
+                    button.textContent = '❤️';
+                }
+            }
+            
+            // Actualizar todos los botones de favoritos en la página
+            updateFavoriteButtons();
+        }
+
+        function updateFavoriteButtons() {
+            document.querySelectorAll('.song-favorite-btn, .popular-favorite-btn').forEach(btn => {
+                const songIndex = parseInt(btn.dataset.songIndex);
+                if (isFavorite(songIndex)) {
+                    btn.classList.add('favorited');
+                    btn.textContent = '❤️';
+                } else {
+                    btn.classList.remove('favorited');
+                    btn.textContent = '🤍';
+                }
+            });
+        }
+
+        function saveRecommendations(baseSong, recommendations) {
+            const saved = {
+                baseSong: baseSong,
+                recommendations: recommendations,
+                timestamp: Date.now()
+            };
+            
+            savedRecommendations.unshift(saved);
+            if (savedRecommendations.length > 10) {
+                savedRecommendations = savedRecommendations.slice(0, 10);
+            }
+            
+            localStorage.setItem('savedRecommendations', JSON.stringify(savedRecommendations));
+            updateSavedRecommendations();
+        }
+
+        function viewSavedRecommendations(index) {
+            const saved = savedRecommendations[index];
+            currentRecommendations = saved.recommendations;
+            showBaseSongInfo(saved.baseSong);
+            displayRecommendations(saved.recommendations);
+            
+            // Cambiar a página de recomendaciones
+            showPage('recommendations');
+            document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+            document.querySelector('[data-page="recommendations"]').classList.add('active');
+        }
+
+        function removeSavedRecommendations(index) {
+            savedRecommendations.splice(index, 1);
+            localStorage.setItem('savedRecommendations', JSON.stringify(savedRecommendations));
+            updateSavedRecommendations();
+        }
+
+        function clearSearchHistory() {
+            if (confirm('¿Estás seguro de que quieres limpiar el historial de búsquedas?')) {
+                searchHistory = [];
+                localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
+                updateSearchHistory();
+            }
+        }
+
+        function removeFromHistory(index, event) {
+            event.stopPropagation();
+            searchHistory.splice(index, 1);
+            localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
+            updateSearchHistory();
+        }
+
+        function getRecommendationsForSong(songIndex) {
+            currentSongIndex = songIndex;
+            getRecommendations();
+        }
+
+        function getTimeAgo(timestamp) {
+            const now = Date.now();
+            const diff = now - timestamp;
+            const minutes = Math.floor(diff / 60000);
+            const hours = Math.floor(diff / 3600000);
+            const days = Math.floor(diff / 86400000);
+
+            if (minutes < 1) return 'Hace un momento';
+            if (minutes < 60) return `Hace ${minutes} min`;
+            if (hours < 24) return `Hace ${hours} h`;
+            return `Hace ${days} días`;
+        }
+
+        // Actualizar historial con timestamps
+        function addToSearchHistory(term) {
+            if (!searchHistory.find(item => (item.term || item) === term)) {
+                searchHistory.unshift({ term: term, timestamp: Date.now() });
+                searchHistory = searchHistory.slice(0, 10);
+                localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
+                userStats.searches++;
+                localStorage.setItem('userStats', JSON.stringify(userStats));
+                updateSearchHistory();
+                updateStats();
+            }
+        }
+
+        // Inicializar slider de popularidad en explorar
+        document.getElementById('popularitySearch').addEventListener('input', function() {
+            document.getElementById('popularitySearchValue').textContent = this.value + '%';
+        });
+
+        // Inicializar
+        document.getElementById('recommendBtn').addEventListener('click', getRecommendations);
+        updateSearchHistory();
+        initializeFilters();
+        
+        // Inicializar efectos visuales
+        initVisualEffects();
+        initializeLibrary();
+        
+        // Cargar canciones populares al inicio
+        loadPopularSongs();
+    </script>
+</body>
+</html> 
