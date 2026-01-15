@@ -2,10 +2,10 @@
 nixPkgs = ["python39"]
 
 [phases.install]
-cmds = ["pip install -r requirements.txt"]
+cmds = ["cd backend && pip install -r requirements.txt"]
 
 [phases.build]
 cmds = ["echo 'Build complete'"]
 
 [start]
-cmd = "gunicorn app_flask:app --bind 0.0.0.0:$PORT --workers 2 --timeout 120"
+cmd = "cd backend && gunicorn app_flask:app --bind 0.0.0.0:$PORT --workers 2 --timeout 120"

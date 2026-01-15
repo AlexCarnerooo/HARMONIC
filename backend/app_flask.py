@@ -4,7 +4,10 @@ from recommender import SongRecommender
 import os
 
 app = Flask(__name__)
-CORS(app)  # Habilitar CORS para todas las rutas
+
+# Configurar CORS para permitir Vercel y otros orígenes
+allowed_origins = os.environ.get('CORS_ORIGINS', '*').split(',')
+CORS(app, origins=allowed_origins, supports_credentials=True)
 
 # Inicializar el recomendador
 recommender = SongRecommender()
@@ -111,4 +114,5 @@ def songs_by_feature():
         return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True) 
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port, debug=False) 

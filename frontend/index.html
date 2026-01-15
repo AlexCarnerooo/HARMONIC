@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="chat-url" content="CHAT_URL_PLACEHOLDER">
     <title>Harmonic - Music Therapy Platform - Transform Your Mental Health</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -13,33 +16,66 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #191414;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #0a0a0a 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
             color: #ffffff;
             height: 100vh;
             overflow: hidden;
+            position: relative;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(29, 185, 84, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(147, 51, 234, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(59, 130, 246, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
         }
 
         /* Header */
         .header {
-            background-color: #000000;
-            height: 60px;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            height: 70px;
             display: flex;
             align-items: center;
-            padding: 0 20px;
-            border-bottom: 1px solid #282828;
+            padding: 0 30px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             z-index: 1000;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
 
         .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: #1DB954;
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #1DB954 0%, #1ed760 50%, #00ff88 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             margin-right: 30px;
+            letter-spacing: -0.5px;
+            font-family: 'Poppins', sans-serif;
+            text-shadow: 0 0 30px rgba(29, 185, 84, 0.5);
         }
 
         .search-container {
@@ -50,17 +86,22 @@
 
         .search-input {
             width: 100%;
-            padding: 8px 16px;
-            background-color: #282828;
-            border: 1px solid #404040;
-            border-radius: 20px;
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
             color: #ffffff;
             font-size: 14px;
+            transition: all 0.3s ease;
+            font-weight: 400;
         }
 
         .search-input:focus {
             outline: none;
             border-color: #1DB954;
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 0 3px rgba(29, 185, 84, 0.2), 0 4px 20px rgba(29, 185, 84, 0.1);
         }
 
         .search-input::placeholder {
@@ -73,14 +114,15 @@
             top: 100%;
             left: 0;
             right: 0;
-            margin-top: 8px;
-            background-color: #282828;
-            border: 1px solid #404040;
-            border-radius: 8px;
+            margin-top: 12px;
+            background: rgba(20, 20, 20, 0.95);
+            backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
             max-height: 300px;
             overflow-y: auto;
             z-index: 1000;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05);
             display: none;
         }
 
@@ -103,7 +145,9 @@
         }
 
         .suggestion-item:hover {
-            background-color: #404040;
+            background: linear-gradient(90deg, rgba(29, 185, 84, 0.1) 0%, rgba(29, 185, 84, 0.05) 100%);
+            border-left: 3px solid #1DB954;
+            padding-left: 13px;
         }
 
         .suggestion-item .suggestion-name {
@@ -130,18 +174,38 @@
         }
 
         .mood-category {
-            background: linear-gradient(135deg, #282828 0%, #181818 100%);
-            border-radius: 12px;
-            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 24px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mood-category::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(29, 185, 84, 0.2) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
         }
 
         .mood-category:hover {
-            transform: translateY(-5px);
-            border-color: #1DB954;
-            box-shadow: 0 8px 25px rgba(29, 185, 84, 0.3);
+            transform: translateY(-8px) scale(1.02);
+            border-color: rgba(29, 185, 84, 0.6);
+            box-shadow: 0 20px 50px rgba(29, 185, 84, 0.3), 0 0 0 1px rgba(29, 185, 84, 0.3), 0 0 40px rgba(29, 185, 84, 0.2);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .mood-category:hover::before {
+            opacity: 1;
         }
 
         .mood-category-header {
@@ -183,12 +247,30 @@
         }
 
         .news-banner {
-            background: linear-gradient(135deg, #1DB954 0%, #1ed760 100%);
-            padding: 15px 20px;
+            background: linear-gradient(135deg, #1DB954 0%, #1ed760 50%, #00ff88 100%);
+            padding: 20px 25px;
             margin-bottom: 30px;
-            border-radius: 8px;
+            border-radius: 16px;
             text-align: center;
-            box-shadow: 0 4px 12px rgba(29, 185, 84, 0.3);
+            box-shadow: 0 8px 30px rgba(29, 185, 84, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1), 0 0 60px rgba(29, 185, 84, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .news-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         .news-banner a {
@@ -223,16 +305,38 @@
         }
 
         .popular-song-card {
-            background-color: #181818;
-            border-radius: 8px;
-            padding: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 18px;
             cursor: pointer;
-            transition: background-color 0.2s, transform 0.2s;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .popular-song-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(29, 185, 84, 0.1) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
         .popular-song-card:hover {
-            background-color: #282828;
-            transform: translateY(-4px);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(29, 185, 84, 0.4);
+            transform: translateY(-6px) scale(1.03);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(29, 185, 84, 0.2);
+        }
+
+        .popular-song-card:hover::before {
+            opacity: 1;
         }
 
         .popular-song-card .song-title {
@@ -266,28 +370,66 @@
 
         /* Sidebar */
         .sidebar {
-            width: 240px;
-            background-color: #000000;
-            padding: 20px 0;
+            width: 260px;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(20px) saturate(180%);
+            padding: 25px 0;
             overflow-y: auto;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .sidebar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(29, 185, 84, 0.5), transparent);
         }
 
         .nav-item {
             display: block;
-            padding: 12px 20px;
-            color: #B3B3B3;
+            padding: 14px 25px;
+            color: rgba(255, 255, 255, 0.7);
             text-decoration: none;
-            transition: color 0.2s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
+            font-weight: 500;
+            font-size: 15px;
+            position: relative;
+            margin: 4px 12px;
+            border-radius: 12px;
+        }
+
+        .nav-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3px;
+            height: 0;
+            background: linear-gradient(180deg, #1DB954, #1ed760);
+            border-radius: 0 3px 3px 0;
+            transition: height 0.3s ease;
         }
 
         .nav-item:hover {
             color: #ffffff;
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateX(5px);
         }
 
         .nav-item.active {
-            color: #1DB954;
-            background-color: #282828;
+            color: #ffffff;
+            background: linear-gradient(90deg, rgba(29, 185, 84, 0.2) 0%, rgba(29, 185, 84, 0.1) 100%);
+            box-shadow: 0 4px 20px rgba(29, 185, 84, 0.2);
+        }
+
+        .nav-item.active::before {
+            height: 60%;
         }
 
         .nav-item i {
@@ -298,11 +440,12 @@
         /* Área principal */
         .main-content {
             flex: 1;
-            background-color: #191414;
+            background: transparent;
             overflow-y: auto;
-            padding: 20px;
+            padding: 30px;
             position: relative;
             height: 100%;
+            z-index: 1;
         }
 
         /* Cuando está en la página de chat, quitar padding y overflow */
@@ -399,9 +542,15 @@
         }
 
         .page-title {
-            font-size: 28px;
-            font-weight: bold;
-            margin-bottom: 20px;
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.8) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -1px;
+            font-family: 'Poppins', sans-serif;
         }
 
         /* Cards de canciones */
@@ -413,25 +562,44 @@
         }
 
         .song-card {
-            background-color: #282828;
-            border-radius: 12px;
-            padding: 20px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 24px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
         }
 
+        .song-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .song-card:hover::after {
+            left: 100%;
+        }
+
         .song-card:hover {
-            background-color: #404040;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(29, 185, 84, 0.5);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(29, 185, 84, 0.2), 0 0 40px rgba(29, 185, 84, 0.1);
         }
 
         .song-card.selected {
-            background-color: #1DB954;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(29, 185, 84, 0.3);
+            background: linear-gradient(135deg, rgba(29, 185, 84, 0.2) 0%, rgba(29, 185, 84, 0.1) 100%);
+            border-color: #1DB954;
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(29, 185, 84, 0.3), 0 0 0 2px rgba(29, 185, 84, 0.5), 0 0 60px rgba(29, 185, 84, 0.2);
         }
 
         .song-card::before {
@@ -440,8 +608,8 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #1DB954, #1ed760);
+            height: 3px;
+            background: linear-gradient(90deg, #1DB954, #1ed760, #00ff88);
             opacity: 0;
             transition: opacity 0.3s ease;
         }
@@ -453,31 +621,45 @@
 
         .song-favorite-btn {
             position: absolute;
-            top: 15px;
-            right: 15px;
-            background: transparent;
-            border: none;
-            font-size: 24px;
+            top: 18px;
+            right: 18px;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            font-size: 22px;
             cursor: pointer;
-            padding: 5px;
-            transition: all 0.3s ease;
+            padding: 8px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 100;
-            opacity: 0.7;
+            opacity: 0.8;
             pointer-events: auto;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .song-favorite-btn:hover {
             opacity: 1;
-            transform: scale(1.2);
+            transform: scale(1.15) rotate(10deg);
+            background: rgba(255, 48, 64, 0.2);
+            border-color: rgba(255, 48, 64, 0.5);
+            box-shadow: 0 4px 15px rgba(255, 48, 64, 0.3);
         }
 
         .song-favorite-btn.favorited {
             opacity: 1;
             color: #ff3040;
+            background: rgba(255, 48, 64, 0.2);
+            border-color: #ff3040;
+            box-shadow: 0 0 20px rgba(255, 48, 64, 0.4);
         }
 
         .song-favorite-btn.favorited:hover {
-            transform: scale(1.3);
+            transform: scale(1.2) rotate(-10deg);
+            box-shadow: 0 0 30px rgba(255, 48, 64, 0.6);
         }
 
         .popular-song-card {
@@ -486,27 +668,40 @@
 
         .popular-favorite-btn {
             position: absolute;
-            top: 10px;
-            right: 10px;
-            background: transparent;
-            border: none;
-            font-size: 20px;
+            top: 12px;
+            right: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            font-size: 18px;
             cursor: pointer;
-            padding: 5px;
-            transition: all 0.3s ease;
+            padding: 6px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 100;
-            opacity: 0.7;
+            opacity: 0.8;
             pointer-events: auto;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .popular-favorite-btn:hover {
             opacity: 1;
-            transform: scale(1.2);
+            transform: scale(1.15) rotate(10deg);
+            background: rgba(255, 48, 64, 0.2);
+            border-color: rgba(255, 48, 64, 0.5);
+            box-shadow: 0 4px 15px rgba(255, 48, 64, 0.3);
         }
 
         .popular-favorite-btn.favorited {
             opacity: 1;
             color: #ff3040;
+            background: rgba(255, 48, 64, 0.2);
+            border-color: #ff3040;
+            box-shadow: 0 0 20px rgba(255, 48, 64, 0.4);
         }
 
         .song-header {
@@ -516,16 +711,23 @@
         }
 
         .song-image {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #1DB954, #1ed760);
-            border-radius: 8px;
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #1DB954 0%, #1ed760 50%, #00ff88 100%);
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
-            margin-right: 15px;
+            font-size: 28px;
+            margin-right: 18px;
             color: #000000;
+            box-shadow: 0 8px 20px rgba(29, 185, 84, 0.3), 0 0 0 2px rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .song-card:hover .song-image {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 12px 30px rgba(29, 185, 84, 0.4), 0 0 0 2px rgba(255, 255, 255, 0.2);
         }
 
         .song-details {
@@ -535,19 +737,22 @@
         }
 
         .song-title {
-            font-size: 18px;
+            font-size: 19px;
             font-weight: 700;
-            margin-bottom: 4px;
-            line-height: 1.2;
+            margin-bottom: 6px;
+            line-height: 1.3;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+            color: #ffffff;
+            letter-spacing: -0.3px;
         }
 
         .song-artist {
-            color: #B3B3B3;
+            color: rgba(255, 255, 255, 0.6);
             font-size: 14px;
             font-weight: 500;
+            letter-spacing: 0.2px;
         }
 
         .song-stats {
@@ -766,27 +971,32 @@
         }
 
         .filter-btn {
-            background-color: #404040;
-            color: #ffffff;
-            border: 1px solid #606060;
-            padding: 8px 16px;
-            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            color: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 10px 20px;
+            border-radius: 25px;
             cursor: pointer;
-            font-size: 12px;
+            font-size: 13px;
             font-weight: 600;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            letter-spacing: 0.3px;
         }
 
         .filter-btn:hover {
-            background-color: #1DB954;
-            color: #000000;
-            border-color: #1DB954;
+            background: linear-gradient(135deg, rgba(29, 185, 84, 0.2) 0%, rgba(29, 185, 84, 0.1) 100%);
+            color: #ffffff;
+            border-color: rgba(29, 185, 84, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(29, 185, 84, 0.2);
         }
 
         .filter-btn.active {
-            background-color: #1DB954;
+            background: linear-gradient(135deg, #1DB954 0%, #1ed760 100%);
             color: #000000;
             border-color: #1DB954;
+            box-shadow: 0 4px 20px rgba(29, 185, 84, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1);
         }
 
         /* Información de la canción base */
@@ -849,19 +1059,39 @@
         }
 
         .explore-card {
-            background: linear-gradient(135deg, #282828, #404040);
-            border-radius: 12px;
-            padding: 25px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 30px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(29, 185, 84, 0.2);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .explore-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(29, 185, 84, 0.2) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
         }
 
         .explore-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(29, 185, 84, 0.3);
-            border-color: #1DB954;
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 20px 50px rgba(29, 185, 84, 0.3), 0 0 0 1px rgba(29, 185, 84, 0.3), 0 0 40px rgba(29, 185, 84, 0.2);
+            border-color: rgba(29, 185, 84, 0.6);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .explore-card:hover::before {
+            opacity: 1;
         }
 
         .explore-icon {
@@ -884,11 +1114,13 @@
 
         /* Búsqueda avanzada */
         .advanced-search {
-            background: linear-gradient(135deg, #282828, #404040);
-            border-radius: 12px;
-            padding: 25px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 30px;
             margin-bottom: 40px;
-            border: 1px solid rgba(29, 185, 84, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
         }
 
         .advanced-search h2 {
@@ -916,27 +1148,32 @@
         }
 
         .form-group label {
-            color: #ffffff;
+            color: rgba(255, 255, 255, 0.9);
             font-weight: 600;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             font-size: 14px;
+            letter-spacing: 0.3px;
         }
 
         .form-group input,
         .form-group select {
-            padding: 10px 12px;
-            background-color: #404040;
-            border: 1px solid #606060;
-            border-radius: 6px;
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
             color: #ffffff;
             font-size: 14px;
-            transition: border-color 0.3s ease;
+            transition: all 0.3s ease;
+            font-weight: 400;
         }
 
         .form-group input:focus,
         .form-group select:focus {
             outline: none;
             border-color: #1DB954;
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 0 3px rgba(29, 185, 84, 0.2), 0 4px 20px rgba(29, 185, 84, 0.1);
         }
 
         .range-inputs {
@@ -973,19 +1210,38 @@
         }
 
         .feature-card {
-            background-color: #282828;
-            border-radius: 8px;
-            padding: 20px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 24px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.3s ease;
-            border: 1px solid transparent;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(29, 185, 84, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .feature-card:hover::after {
+            left: 100%;
         }
 
         .feature-card:hover {
-            background-color: #404040;
-            border-color: #1DB954;
-            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(29, 185, 84, 0.5);
+            transform: translateY(-6px) scale(1.05);
+            box-shadow: 0 12px 40px rgba(29, 185, 84, 0.3), 0 0 0 1px rgba(29, 185, 84, 0.2);
         }
 
         .feature-icon {
@@ -1028,25 +1284,44 @@
         }
 
         .tab-btn {
-            background-color: transparent;
-            color: #B3B3B3;
+            background: transparent;
+            color: rgba(255, 255, 255, 0.6);
             border: none;
-            padding: 12px 20px;
-            border-radius: 8px 8px 0 0;
+            padding: 14px 24px;
+            border-radius: 12px 12px 0 0;
             cursor: pointer;
             font-weight: 600;
             font-size: 14px;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            letter-spacing: 0.3px;
+        }
+
+        .tab-btn::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #1DB954, #1ed760);
+            border-radius: 3px 3px 0 0;
+            transition: width 0.3s ease;
         }
 
         .tab-btn:hover {
-            background-color: #404040;
-            color: #ffffff;
+            background: rgba(255, 255, 255, 0.05);
+            color: rgba(255, 255, 255, 0.9);
         }
 
         .tab-btn.active {
-            background-color: #1DB954;
-            color: #000000;
+            background: linear-gradient(135deg, rgba(29, 185, 84, 0.2) 0%, rgba(29, 185, 84, 0.1) 100%);
+            color: #ffffff;
+        }
+
+        .tab-btn.active::before {
+            width: 80%;
         }
 
         .tab-content {
@@ -2019,6 +2294,80 @@
         let particles = [];
         let isAnimating = false;
 
+        // Escuchar mensajes del chat para guardar recomendaciones automáticamente
+        window.addEventListener('message', function(event) {
+            // Verificar que el mensaje viene del chat
+            if (event.data && event.data.type === 'CHAT_RECOMMENDATIONS' && event.data.songs) {
+                const songs = event.data.songs;
+                
+                // Crear objeto de recomendación guardada
+                const baseSong = {
+                    name: 'Recomendaciones del Chat',
+                    artists: `HARMONIC GPT - ${songs.length} canciones`
+                };
+                
+                // Guardar las recomendaciones
+                saveRecommendations(baseSong, songs);
+                
+                // Mostrar notificación
+                showNotification(`✨ Se guardaron ${songs.length} canciones recomendadas por el chat en tu biblioteca`);
+                
+                // Actualizar la biblioteca si está visible
+                if (document.getElementById('library').classList.contains('active')) {
+                    updateSavedRecommendations();
+                }
+            }
+        });
+
+        // Función para mostrar notificaciones
+        function showNotification(message) {
+            // Crear elemento de notificación
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 80px;
+                right: 20px;
+                background: linear-gradient(135deg, #1DB954 0%, #1ed760 100%);
+                color: #000;
+                padding: 16px 24px;
+                border-radius: 12px;
+                box-shadow: 0 8px 30px rgba(29, 185, 84, 0.4);
+                z-index: 10000;
+                font-weight: 600;
+                font-size: 14px;
+                animation: slideIn 0.3s ease;
+                max-width: 350px;
+            `;
+            notification.textContent = message;
+            
+            // Agregar animación
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideIn {
+                    from {
+                        transform: translateX(400px);
+                        opacity: 0;
+                    }
+                    to {
+                        transform: translateX(0);
+                        opacity: 1;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            document.body.appendChild(notification);
+            
+            // Remover después de 4 segundos
+            setTimeout(() => {
+                notification.style.animation = 'slideIn 0.3s ease reverse';
+                setTimeout(() => {
+                    notification.remove();
+                    style.remove();
+                }, 300);
+            }, 4000);
+        }
+
         // Efectos visuales avanzados
         function initVisualEffects() {
             createParticles();
@@ -2562,7 +2911,7 @@
             addToSearchHistory(name);
 
             try {
-                const response = await fetch('http://127.0.0.1:5000/api/find-song', {
+                const response = await fetch(`${API_BASE_URL}/api/find-song`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
