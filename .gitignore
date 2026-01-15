@@ -50,4 +50,21 @@ ENV/
 .Spotlight-V100
 .Trashes
 ehthumbs.db
-Thumbs.db 
+Thumbs.db
+
+# Node
+node_modules/
+.next/
+out/
+build/
+dist/
+
+# Environment variables
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Excluir el .git de frontend_chat pero mantener el código
+frontend_chat/.git/
+frontend_chat/.git

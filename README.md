@@ -1,105 +1,130 @@
-# SongRecommender
+# 🎵 Harmonic - Music Therapy Platform
 
-Este proyecto implementa un sistema de recomendación de canciones utilizando el algoritmo KNN (K-Nearest Neighbors) y clustering. El sistema permite buscar canciones y obtener recomendaciones basadas en características musicales como tempo, bailabilidad, volumen, etc.
+Plataforma de recomendación musical basada en atributos musicales reales de Spotify, con integración de chat GPT para recomendaciones personalizadas.
 
-## Características
+## ✨ Características
 
-- Búsqueda de canciones por nombre
-- Visualización detallada de características musicales
-- Sistema de recomendación basado en KNN
-- Clustering de canciones para mejorar la precisión y velocidad de las recomendaciones
-- Interfaz web intuitiva y responsive
+- 🎼 **Recomendaciones Musicales**: Basadas en atributos reales de canciones (tempo, danceability, acousticness, etc.)
+- 💬 **Chat GPT Integrado**: Asistente inteligente para recomendaciones musicales personalizadas
+- 🎯 **Búsqueda Avanzada**: Filtra por artista, década, tempo, popularidad
+- 📰 **Noticias y Artículos**: Sección de noticias sobre música y salud mental
+- ❤️ **Favoritos**: Guarda tus canciones favoritas
+- 🎨 **Exploración por Características**: Descubre música por popularidad, recientes, para bailar, acústicas, etc.
 
-## Tecnologías Utilizadas
+## 🚀 Inicio Rápido
 
-- Python 3.x
-- Flask (Backend)
-- Pandas (Procesamiento de datos)
-- Scikit-learn (Machine Learning)
-- HTML/CSS/JavaScript (Frontend)
+### Requisitos
 
-## Instalación
+- Python 3.9+
+- Node.js 18+
+- API Key de OpenAI (para el chat)
 
-1. Clona el repositorio:
+### Instalación Local
+
+1. **Clonar el repositorio**
 ```bash
-git clone https://github.com/tu-usuario/SongRecommender.git
-cd SongRecommender
+git clone https://github.com/TU_USUARIO/harmonic.git
+cd harmonic
 ```
 
-2. Instala las dependencias:
-```bash
-pip install -r requirements.txt
-```
-
-3. Asegúrate de tener el archivo de datos procesados en la carpeta `data/datos_procesados.csv`
-
-## Uso
-
-1. Inicia el servidor Flask:
+2. **Configurar Backend (Flask)**
 ```bash
 cd backend
+pip install -r requirements.txt
 python app_flask.py
 ```
 
-2. Abre el archivo `frontend/index.html` en tu navegador
+El servidor Flask estará disponible en `http://localhost:5000`
 
-3. Busca una canción y obtén recomendaciones basadas en sus características musicales
+3. **Configurar Frontend Chat (Next.js)**
+```bash
+cd frontend_chat
+npm install
+# Crear archivo .env.local con tu API key de OpenAI
+echo "OPENAI_API_KEY=tu_api_key_aqui" > .env.local
+npm run dev
+```
 
-## Estructura del Proyecto
+El servidor Next.js estará disponible en `http://localhost:3000`
+
+4. **Abrir la aplicación**
+Abre `frontend/index.html` en tu navegador o accede a través del servidor Flask en `http://localhost:5000`
+
+## 📦 Estructura del Proyecto
 
 ```
-SongRecommender/
-├── backend/
-│   ├── app_flask.py
-│   └── recommender.py
-├── frontend/
-│   └── index.html
-├── data/
-│   ├── limpieza_datos.ipynb
+harmonic/
+├── backend/              # API Flask con lógica de recomendación
+│   ├── app_flask.py     # Servidor Flask principal
+│   ├── recommender.py   # Clase SongRecommender con lógica ML
+│   └── requirements.txt # Dependencias Python
+├── frontend/            # Frontend HTML estático
+│   ├── index.html       # Página principal
+│   ├── newspaper-2035.html
+│   └── article-detail-2035.html
+├── frontend_chat/       # Aplicación Next.js para el chat
+│   ├── app/            # Rutas y componentes Next.js
+│   └── components/     # Componentes React
+├── data/               # Datos CSV con información de canciones
 │   └── datos_procesados.csv
-└── requirements.txt
+└── DEPLOYMENT.md       # Guía detallada de deployment
 ```
 
-## Proceso de Datos
+## 🌐 Deployment
 
-### Limpieza y Preprocesamiento
-El sistema incluye un proceso de limpieza de datos (`limpieza_datos.ipynb`) que:
-- Elimina valores nulos y duplicados
-- Normaliza las características numéricas
-- Preserva los valores originales para visualización
-- Aplica clustering para agrupar canciones similares
+Para desplegar la aplicación en producción, consulta la [Guía de Deployment](DEPLOYMENT.md).
 
-### Clustering
-Para mejorar la eficiencia y precisión de las recomendaciones:
-- Las canciones se agrupan en clusters basados en sus características musicales
-- Las recomendaciones se buscan solo dentro del mismo cluster
-- Esto reduce significativamente el tiempo de búsqueda y mejora la relevancia de las recomendaciones
+### Opciones de Hosting Recomendadas
 
-## Características Musicales
+- **Railway** (Recomendado): Fácil setup, auto-deploy desde GitHub
+- **Render**: Plan gratuito disponible, soporte multi-servicio
+- **Heroku**: Establecido y confiable (requiere plan de pago)
 
-El sistema utiliza las siguientes características para las recomendaciones:
-- Año de lanzamiento
-- Popularidad
-- Duración (duration_ms)
-- Volumen (loudness)
-- Tempo (BPM)
-- Bailabilidad (danceability)
-- Acústica (acousticness)
-- Instrumentalidad (instrumentalness)
-- En vivo (liveness)
-- Habla (speechiness)
+### Variables de Entorno Necesarias
 
-Cada característica aporta una dimensión única a la similitud entre canciones:
-- **Bailabilidad**: Mide qué tan adecuada es la canción para bailar
-- **Acústica**: Indica qué tan acústica es la canción
-- **Instrumentalidad**: Mide la ausencia de voces
-- **En vivo**: Indica la probabilidad de que la canción sea en vivo
-- **Habla**: Mide la presencia de palabras habladas
+**Backend:**
+- `FLASK_ENV=production`
+- `PORT=5000` (o el puerto que asigne la plataforma)
 
-## Contribuir
+**Frontend Chat:**
+- `OPENAI_API_KEY=tu_api_key_de_openai`
+- `NEXT_PUBLIC_FLASK_URL=https://tu-backend-url.com`
+- `NODE_ENV=production`
 
-Las contribuciones son bienvenidas. Por favor, abre un issue primero para discutir los cambios que te gustaría hacer.
+## 🔧 Tecnologías Utilizadas
 
-## Licencia
+- **Backend**: Flask (Python), Pandas, scikit-learn
+- **Frontend**: HTML5, CSS3, JavaScript (Vanilla)
+- **Chat**: Next.js 14, React, OpenAI API
+- **ML**: K-Nearest Neighbors para recomendaciones
 
-Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) para más detalles. 
+## 📊 Datos
+
+El proyecto utiliza datos reales de Spotify procesados en `data/datos_procesados.csv`, incluyendo:
+- Atributos musicales (tempo, danceability, acousticness, etc.)
+- Metadatos (artista, año, popularidad)
+- Clusters para recomendaciones basadas en similitud
+
+## 🤝 Contribuir
+
+Las contribuciones son bienvenidas. Por favor:
+
+1. Fork el proyecto
+2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
+3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
+4. Push a la rama (`git push origin feature/AmazingFeature`)
+5. Abre un Pull Request
+
+## 📝 Licencia
+
+Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) para más detalles.
+
+## 👤 Autor
+
+Tu nombre - [@tu_usuario](https://github.com/tu_usuario)
+
+## 🙏 Agradecimientos
+
+- Spotify por los datos de atributos musicales
+- OpenAI por la API de GPT
+- La comunidad de código abierto

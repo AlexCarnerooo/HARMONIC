@@ -124,6 +124,84 @@ class SongRecommender:
             
         return results
     
+    def get_songs_by_mood(self, mood, limit=10):
+        """
+        Obtener canciones filtradas por estado de ánimo basado en atributos musicales.
+        
+        Args:
+            mood (str): Estado de ánimo ('ansiedad', 'nervios', 'triste', 'feliz', 'energético', 'relajado')
+            limit (int): Número de canciones a retornar
+            
+        Returns:
+            list: Lista de diccionarios con información de las canciones filtradas
+        """
+        mood = mood.lower()
+        filtered_df = self.df.copy()
+        
+        # Definir filtros por estado de ánimo basados en atributos musicales
+        # Nota: El CSV no tiene columna 'energy', usamos 'danceability' y 'liveness' como proxies
+        if mood in ['ansiedad', 'nervios', 'estrés', 'estres', 'tranquilidad', 'tranquilo', 'calma', 'relajante', 'relajado']:
+            # Para ansiedad/nervios: bajo tempo, alta acousticness, baja danceability, bajo loudness
+            filtered_df = filtered_df[
+                (filtered_df['tempo_original'] < 90) &  # Tempo lento
+                (filtered_df['acousticness'] > 0.5) &    # Alta acousticness
+                (filtered_df['danceability'] < 0.5) &     # Baja danceability (más calmada)
+                (filtered_df['loudness_original'] > -15)  # No muy fuerte
+            ]
+            # Ordenar por acousticness descendente y tempo ascendente
+            filtered_df = filtered_df.sort_values(['acousticness', 'tempo_original'], ascending=[False, True])
+            
+        elif mood in ['triste', 'tristeza', 'depresión', 'depresion']:
+            # Para tristeza: tempo medio-bajo, baja danceability, alta acousticness
+            filtered_df = filtered_df[
+                (filtered_df['tempo_original'] < 100) &
+                (filtered_df['danceability'] < 0.6) &
+                (filtered_df['acousticness'] > 0.4)
+            ]
+            filtered_df = filtered_df.sort_values(['acousticness', 'tempo_original'], ascending=[False, True])
+            
+        elif mood in ['feliz', 'alegría', 'alegria']:
+            # Para felicidad: tempo medio-alto, alta danceability, bajo acousticness (más electrónica)
+            filtered_df = filtered_df[
+                (filtered_df['tempo_original'] > 100) &
+                (filtered_df['danceability'] > 0.6) &
+                (filtered_df['acousticness'] < 0.5)  # Menos acústica = más electrónica/energética
+            ]
+            filtered_df = filtered_df.sort_values(['danceability', 'tempo_original'], ascending=[False, False])
+            
+        elif mood in ['energético', 'energia', 'energía', 'focus', 'concentración', 'concentracion']:
+            # Para energía: tempo alto, alta danceability, bajo acousticness
+            filtered_df = filtered_df[
+                (filtered_df['tempo_original'] > 120) &
+                (filtered_df['danceability'] > 0.7) &
+                (filtered_df['acousticness'] < 0.4)  # Menos acústica = más electrónica
+            ]
+            filtered_df = filtered_df.sort_values(['danceability', 'tempo_original'], ascending=[False, False])
+            
+        else:
+            # Si no se reconoce el estado de ánimo, devolver canciones populares
+            return self.get_popular_songs(limit)
+        
+        # Limitar resultados
+        filtered_df = filtered_df.head(limit)
+        
+        # Convertir a formato JSON
+        results = []
+        for _, song in filtered_df.iterrows():
+            result = self._convert_to_json_serializable(song.to_dict())
+            result['index'] = int(song.name)
+            
+            # Usar valores originales
+            result['year'] = int(song['year_original'])
+            result['popularity'] = float(song['popularity_original'])
+            result['duration_ms'] = int(song['duration_ms_original'])
+            result['loudness'] = float(song['loudness_original'])
+            result['tempo'] = float(song['tempo_original'])
+            
+            results.append(result)
+        
+        return results
+    
     def search_suggestions(self, query, limit=10):
         """
         Buscar sugerencias de canciones y artistas para autocompletado.
@@ -162,6 +240,85 @@ class SongRecommender:
             })
         
         return suggestions
+    
+    def get_songs_by_feature(self, feature, limit=20):
+        """
+        Obtener canciones filtradas por características musicales específicas.
+        
+        Args:
+            feature (str): Característica ('recent', 'danceable', 'acoustic', 'high-energy', 'instrumental', 'live', 'speech')
+            limit (int): Número de canciones a retornar
+            
+        Returns:
+            list: Lista de diccionarios con información de las canciones filtradas
+        """
+        filtered_df = self.df.copy()
+        
+        if feature == 'recent':
+            # Canciones recientes (últimos 10 años)
+            current_year = 2024  # Ajustar según sea necesario
+            min_year = current_year - 10
+            filtered_df = filtered_df[filtered_df['year_original'] >= min_year]
+            filtered_df = filtered_df.sort_values(['year_original', 'popularity_original'], ascending=[False, False])
+            
+        elif feature == 'danceable':
+            # Alta danceability (música para bailar)
+            filtered_df = filtered_df[filtered_df['danceability'] > 0.7]
+            filtered_df = filtered_df.sort_values(['danceability', 'popularity_original'], ascending=[False, False])
+            
+        elif feature == 'acoustic':
+            # Alta acousticness (música acústica)
+            filtered_df = filtered_df[filtered_df['acousticness'] > 0.5]
+            filtered_df = filtered_df.sort_values(['acousticness', 'popularity_original'], ascending=[False, False])
+            
+        elif feature == 'high-energy':
+            # Alta energía (alta danceability y tempo)
+            filtered_df = filtered_df[
+                (filtered_df['danceability'] > 0.7) &
+                (filtered_df['tempo_original'] > 120)
+            ]
+            filtered_df = filtered_df.sort_values(['danceability', 'tempo_original'], ascending=[False, False])
+            
+        elif feature == 'instrumental':
+            # Alta instrumentalness (música instrumental)
+            filtered_df = filtered_df[filtered_df['instrumentalness'] > 0.5]
+            filtered_df = filtered_df.sort_values(['instrumentalness', 'popularity_original'], ascending=[False, False])
+            
+        elif feature == 'live':
+            # Alta liveness (grabaciones en vivo)
+            filtered_df = filtered_df[filtered_df['liveness'] > 0.3]
+            filtered_df = filtered_df.sort_values(['liveness', 'popularity_original'], ascending=[False, False])
+            
+        elif feature == 'speech':
+            # Alta speechiness (música con habla)
+            filtered_df = filtered_df[filtered_df['speechiness'] > 0.3]
+            filtered_df = filtered_df.sort_values(['speechiness', 'popularity_original'], ascending=[False, False])
+            
+        else:
+            # Si no se reconoce la característica, devolver canciones populares
+            return self.get_popular_songs(limit)
+        
+        # Limitar resultados
+        filtered_df = filtered_df.head(limit)
+        
+        # Convertir a formato JSON
+        results = []
+        for _, song in filtered_df.iterrows():
+            result = self._convert_to_json_serializable(song.to_dict())
+            result['index'] = int(song.name)
+            
+            # Usar valores originales
+            result['year'] = int(song['year_original'])
+            result['popularity'] = float(song['popularity_original'])
+            result['duration_ms'] = int(song['duration_ms_original'])
+            result['loudness'] = float(song['loudness_original'])
+            result['tempo'] = float(song['tempo_original'])
+            result['danceability'] = float(song['danceability'])
+            result['acousticness'] = float(song['acousticness'])
+            
+            results.append(result)
+        
+        return results
     
     def get_recommendations(self, song_idx):
         """

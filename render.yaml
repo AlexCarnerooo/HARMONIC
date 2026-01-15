@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: harmonic-backend
+    env: python
+    buildCommand: cd backend && pip install -r requirements.txt
+    startCommand: cd backend && gunicorn app_flask:app --bind 0.0.0.0:$PORT --workers 2 --timeout 120
+    envVars:
+      - key: FLASK_ENV
+        value: production
+      - key: PORT
+        value: 5000
+
+  - type: web
+    name: harmonic-chat
+    env: node
+    buildCommand: cd frontend_chat && npm install && npm run build
+    startCommand: cd frontend_chat && npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: NEXT_PUBLIC_FLASK_URL
+        fromService:
+          type: web
+          name: harmonic-backend
+          property: host

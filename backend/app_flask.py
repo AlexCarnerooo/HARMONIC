@@ -15,6 +15,30 @@ def home():
     frontend_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'frontend')
     return send_from_directory(frontend_path, 'index.html')
 
+@app.route('/noticia-musica-salud')
+def noticia_musica_salud():
+    # Servir la página de noticias
+    frontend_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'frontend')
+    return send_from_directory(frontend_path, 'noticia-musica-salud.html')
+
+@app.route('/newspaper-2035')
+def newspaper_2035():
+    # Servir el periódico estilo NY Times de 2035
+    frontend_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'frontend')
+    return send_from_directory(frontend_path, 'newspaper-2035.html')
+
+@app.route('/article-detail-2035')
+def article_detail_2035():
+    # Servir el artículo detallado
+    frontend_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'frontend')
+    return send_from_directory(frontend_path, 'article-detail-2035.html')
+
+@app.route('/images/<path:filename>')
+def serve_images(filename):
+    # Servir imágenes estáticas
+    frontend_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'frontend', 'images')
+    return send_from_directory(frontend_path, filename)
+
 @app.route('/api/find-song', methods=['POST'])
 def find_song():
     data = request.get_json()
@@ -59,6 +83,30 @@ def search_suggestions():
         limit = request.args.get('limit', 10, type=int)
         suggestions = recommender.search_suggestions(query, limit)
         return jsonify(suggestions)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/songs-by-mood', methods=['GET'])
+def songs_by_mood():
+    try:
+        mood = request.args.get('mood', '')
+        limit = request.args.get('limit', 10, type=int)
+        if not mood:
+            return jsonify({'error': 'Se requiere un estado de ánimo'}), 400
+        songs = recommender.get_songs_by_mood(mood, limit)
+        return jsonify(songs)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/songs-by-feature', methods=['GET'])
+def songs_by_feature():
+    try:
+        feature = request.args.get('feature', '')
+        limit = request.args.get('limit', 20, type=int)
+        if not feature:
+            return jsonify({'error': 'Se requiere una característica'}), 400
+        songs = recommender.get_songs_by_feature(feature, limit)
+        return jsonify(songs)
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
