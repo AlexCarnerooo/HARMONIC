@@ -5,9 +5,16 @@ import os
 
 class SongRecommender:
     def __init__(self):
-        # Obtener la ruta absoluta al directorio del proyecto
-        current_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        data_path = os.path.join(current_dir, 'data', 'datos_procesados.csv')
+        # Obtener la ruta del archivo de datos
+        # Primero intenta en backend/data/ (para Railway con Root Directory = backend)
+        # Luego intenta en ../data/ (para desarrollo local)
+        backend_dir = os.path.dirname(os.path.abspath(__file__))
+        data_path = os.path.join(backend_dir, 'data', 'datos_procesados.csv')
+        
+        # Si no existe, intentar en la carpeta padre (desarrollo local)
+        if not os.path.exists(data_path):
+            parent_dir = os.path.dirname(backend_dir)
+            data_path = os.path.join(parent_dir, 'data', 'datos_procesados.csv')
         
         if not os.path.exists(data_path):
             raise FileNotFoundError(f"No se encontró el archivo de datos en: {data_path}")
